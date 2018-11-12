@@ -28,9 +28,10 @@
            <div class="reg_msg">
              <form>
                <div class="reg_inp">
-                 <input type="text" placeholder="请输入您的账号">
+                 <input type="text" placeholder="请输入您的手机号">
                  <button disabled="disabled" class="get_verification">获取验证码</button>
                  <input type="text" placeholder="请输入验证码">
+                 <input type="text" placeholder="请输入您的店铺名">
                  <input type="password" autocomplete="new-password" placeholder="请输入您的密码">
                  <input type="password" autocomplete="new-password" placeholder="请再次输入您的密码">
                </div>
@@ -117,7 +118,7 @@
 
   .reg_msg {
     width: 100vw;
-    height: 58vh;
+    height: 53vh;
     background: white;
   }
 
@@ -137,7 +138,7 @@
 
   .reg_inp > input {
     box-sizing: border-box;
-    padding-top: 4.5vh;
+    padding-top: 5vh;
     position: relative;
     width: 70vw;
     height: 8vh;
@@ -145,20 +146,21 @@
     color: #aaaaaa;
     font-size: 4vw;
     margin-left: 15vw;
-    text-align: center;
+    /*text-align: center;*/
     border-bottom: 1px solid lightslategray;
   }
 
   .reg_inp > input::placeholder {
     color: #aaaaaa;
     font-size: 12px;
+    padding-left: 20px;
   }
 
   .get_verification{
     position :absolute;
-    top: 24%;
+    top: 21%;
     right: 60px;
-    transform: translateY(-50%);
+    transform: translateY(-10%);
     border: 0;
     color: #ccc;
     font-size: 10px;
@@ -166,23 +168,7 @@
   }
 
   .reg_inp > input:nth-child(1) {
-    margin-top: 3vh;
-  }
-
-  .reg_inp > input:nth-child(2) {
-    /*margin-top: 2vh;*/
-  }
-
-  .reg_inp  input:nth-child(3) {
-    margin-top: 1.34vh;
-  }
-
-  .reg_inp  input:nth-child(4) {
-    margin-top: 1.34vh;
-  }
-
-  .reg_inp  input:nth-child(5) {
-    margin-top: 1.34vh;
+    margin-top: 1vh;
   }
 
   .login_inp > input::placeholder {

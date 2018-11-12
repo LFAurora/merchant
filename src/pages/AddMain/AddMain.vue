@@ -14,32 +14,46 @@
         禁止无资质上架食材等物品
       </van-notice-bar>
       <form>
-        <van-uploader :after-read="onRead" accept="image/gif, image/jpeg" multiple>
-          <img v-for="" class="head-img iconfont icon-zhaoxiangji" src="" ref="goodsImg"/>
-        </van-uploader>
+        <div class="hello">
+          <div class="upload">
+            <div class="upload_warp">
+              <div class="upload_warp_left" @click="fileClick">
+                <img src="./upload.png">
+              </div>
+            </div>
+            <input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none"/>
+            <div class="upload_warp_img" v-show="imgList.length!=0">
+              <div class="upload_warp_img_div" v-for="(item,index) of imgList">
+                <div class="upload_warp_img_div_top">
+                  <img src="./del.png" class="upload_warp_img_div_del" @click="fileDel(index)">
+                </div>
+                <img :src="item.file.src">
+              </div>
+            </div>
+          </div>
+        </div>
         <van-cell-group>
           <van-field
-            label="留言"
+            label="标题"
             type="textarea"
             placeholder="请填写商品标题"
             rows="3"
             autosize
           />
         </van-cell-group>
-        <div style="margin-top: 20px" @click="goTo('/category')">
           <van-cell-group >
-            <van-field
+            <van-field @click="IsshowPop"
               label="类目"
-              icon="arrow"
-              disabled
+              icon="arrow" readonly
+              v-model="list_name"
             />
           </van-cell-group>
-        </div>
-        <div id="asd" >
+        <div>
           <div class="add_shop_model" v-for="(item,index) in test" :key="index">
             <div class="model" v-if="showModel">
               <label for="">型号</label>
               <input type="text" v-model="item.model">
+              <input type="file">
             </div>
             <div class="price">
               <label for="">价格</label>
@@ -65,6 +79,9 @@
           </van-cell-group>
         </div>
       </form>
+      <van-popup v-model="showPop" position="bottom" :overlay="false">
+         <van-picker show-toolbar title="请选择商品的分类" :columns="columns" @cancel="onCancel" @confirm="onConfirm" />
+      </van-popup>
     </van-list>
 
   </section>
@@ -76,20 +93,34 @@
       return{
         test:[{}],
         showModel:false,
-        imgArr: []
+        imgList: [],
+        size: 0,
+        list_name:'',
+        showPop: false,
+        columns: ['蔬菜', '水果', '调味品', '刀具']
       }
     },
     methods: {
+      IsshowPop(){
+        this.showPop=true
+      },
+      onConfirm(value, index) {
+        this.list_name = value
+        this.showPop=false
+        // console.log(`当前值：${value}, 当前索引：${index}`);
+      },
+      onCancel() {
+        this.showPop=false
+      },
+
       goTo(path){
         console.log(123)
-        this.$router.replace(path)
+        // this.$router.replace(path)
+        // this.$router.push(path)
       },
       onClickRight(){
-        alert('完成')
-      },
-      onRead(file) {
-        console.log(file)
-        this.$refs.goodsImg.src = file.content;
+        // alert('完成')
+        console.log(this);
       },
       addModel() {
         if(this.showModel==false){
@@ -99,18 +130,90 @@
         }
       },
       deleteModel(e){
-        var index = e.target.getAttribute("index");
-        if(index==0){
+        const index = e.target.getAttribute("index");
+        if(index==0 && this.test.length==1){
           this.showModel = !this.showModel
         }else{
           this.test.splice(index,1);
         }
+      },
+      fileClick() {
+        document.getElementById('upload_file').click()
+      },
+      fileChange(el) {
+        if (!el.target.files[0].size) return;
+        this.fileList(el.target);
+        el.target.value = ''
+      },
+      fileList(fileList) {
+        let files = fileList.files;
+        for (let i = 0; i < files.length; i++) {
+          //判断是否为文件夹
+          if (files[i].type != '') {
+            this.fileAdd(files[i]);
+          } else {
+            //文件夹处理
+            this.folders(fileList.items[i]);
+          }
+        }
+      },
+      //文件夹处理
+      folders(files) {
+        let _this = this;
+        //判断是否为原生file
+        if (files.kind) {
+          files = files.webkitGetAsEntry();
+        }
+        files.createReader().readEntries(function (file) {
+          for (let i = 0; i < file.length; i++) {
+            if (file[i].isFile) {
+              _this.foldersAdd(file[i]);
+            } else {
+              _this.folders(file[i]);
+            }
+          }
+        })
+      },
+      foldersAdd(entry) {
+        let _this = this;
+        entry.file(function (file) {
+          _this.fileAdd(file)
+        })
+      },
+      fileAdd(file) {
+        //总大小
+        this.size = this.size + file.size;
+        //判断是否为图片文件
+        if (file.type.indexOf('image') == -1) {
+          file.src = 'wenjian.png';
+          this.imgList.push({
+            file
+          });
+          console.log(this.imgList[0])
+        } else {
+          let reader = new FileReader();
+          reader.vue = this;
+          reader.readAsDataURL(file);
+          reader.onload = function () {
+            file.src = this.result;
+            this.vue.imgList.push({
+              file
+            });
+          }
+        }
+      },
+      fileDel(index) {
+        this.size = this.size - this.imgList[index].file.size;//总大小
+        this.imgList.splice(index, 1);
       },
     }
   }
 </script>
 
 <style >
+  .van-list{
+    margin-top: 44px;
+  }
   .van-nav-bar{
     background-color: #FB4D3D;
   }
@@ -143,7 +246,7 @@
     padding-top: 10px;
   }
   .price{
-    padding-top: 10px;
+    padding-top: 20px;
   }
   .inventory{
     margin-top: 10px;
@@ -151,11 +254,9 @@
   }
   .add_shop_model input{
     border: 1px solid lightgray;
-    width: 70vw;
+    margin-left: 5vw;
+    width: 65vw;
     height: 30px;
-  }
-  form{
-    /*height: auto;*/
   }
   .del_model_btn{
     border: none;
@@ -173,14 +274,97 @@
     width: 100vw;
     height: 50px;
     display: flex;
-    vertical-align: center;
+    /*vertical-align: center;*/
     flex-direction:row-reverse;
   }
-  .imm{
-    width: 20vw;
+
+  .upload_warp_img_div_del {
+    position: absolute;
+    top: 6px;
+    width: 16px;
+    right: 4px;
   }
-  .van-list{
-    margin-top: 44px;
+
+  .upload_warp_img_div_top {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.4);
+    line-height: 30px;
+    text-align: left;
+    color: #fff;
+    font-size: 12px;
+    text-indent: 4px;
+  }
+
+
+
+  .upload_warp_img_div img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+  }
+
+  .upload_warp_img_div {
+    position: relative;
+    height: 100px;
+    width: 30vw;
+    border: 1px solid #ccc;
+    margin: 0px 10px 10px 0px;
+    float: left;
+    line-height: 100px;
+    display: table-cell;
+    text-align: center;
+    background-color: #eee;
+    cursor: pointer;
+  }
+
+  .upload_warp_img {
+    border-top: 1px solid #D2D2D2;
+    padding: 14px 0 0 0;
+    overflow: hidden
+  }
+
+  .upload_warp_text {
+    text-align: left;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    text-indent: 14px;
+    border-top: 1px solid #ccc;
+    font-size: 14px;
+  }
+  .upload_warp_left img {
+    margin-top: 32px;
+  }
+
+  .upload_warp_left {
+    float: left;
+    width: 40%;
+    height: 100%;
+    margin-left: 30%;
+    border: 1px dashed #999;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .upload_warp {
+    margin: 14px;
+    height: 130px;
+  }
+
+  .upload {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    width: 100vw;
+    box-shadow: 0px 1px 0px #ccc;
+    border-radius: 4px;
+  }
+
+  .hello {
+    width: 100vw;
+    /*margin-left: 34%;*/
+    text-align: center;
   }
 
 </style>

@@ -47,16 +47,17 @@
       足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。
     </van-notice-bar>
     <div class="user_cart">
-
       <div class="cart_top">
-        <button>
+        <button @click="goTo('/main/customer')">
           <i class="iconfont icon-kehu"></i><br/>
           <span>客户</span>
         </button>
-        <button @click="goTo('/addshop')">
-          <i class="iconfont icon-tubiaoshangpin"></i><br/>
-          <span>商品</span>
-        </button>
+        <!--<router-link to="/main/addshop">-->
+          <button @click="goTo('/main/addshop')">
+            <i class="iconfont icon-tubiaoshangpin"></i><br/>
+            <span>商品</span>
+          </button>
+        <!--</router-link>-->
         <button>
           <i class="iconfont icon-74wodedingdan"></i><br/>
           <span>订单收入</span>
@@ -88,7 +89,7 @@
     },
     methods:{
       goTo(path){
-        this.$router.replace(path)
+        this.$router.push(path)
       }
     }
   }

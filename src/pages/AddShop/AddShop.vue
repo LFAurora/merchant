@@ -9,7 +9,7 @@
     <div class="add_before">
       <h1 class="add_title">添加高品质好货</h1>
       <h6 class="add_direction">添加商品就是如此快捷简单</h6>
-      <button class="add_fast" @click="goTo('/addmain')">快速添加商品</button>
+      <router-link to="/main/addmain"><button class="add_fast" >快速添加商品</button></router-link>
     </div>
   </section>
 </template>

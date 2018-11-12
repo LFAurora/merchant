@@ -15,6 +15,7 @@ import Setting from '../pages/Setting/Setting.vue'
 import AddShop from '../pages/AddShop/AddShop.vue'
 import AddMain from '../pages/AddMain/AddMain.vue'
 import CategoryItem from '../pages/AddMain/CategoryItem/CategoryItem.vue'
+import Customer from '../pages/Customer/Customer.vue'
 
 //声明使用插件
 Vue.use(VueRouter)
@@ -30,18 +31,7 @@ export default new VueRouter({
       path:'/home',
       component:Home
     },
-    {
-      path:'/addmain',
-      component:AddMain,
-    },
-    {
-      path:'/addshop',
-      component:AddShop,
-    },
-    {
-      path:'/category',
-      component:CategoryItem,
-    },
+
     {
       path:'/',
       redirect:'/home'
@@ -79,8 +69,24 @@ export default new VueRouter({
           }
         },
         {
+          path:'/main/addmain',
+          component:AddMain,
+        },
+        {
+          path:'/main/addshop',
+          component:AddShop,
+        },
+        {
+          path:'/main/category',
+          component:CategoryItem,
+        },
+        {
           path:'',
           redirect:'/main/myshop'
+        },
+        {
+          path:'/main/customer',
+          component:Customer,
         },
       ]
     },
