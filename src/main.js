@@ -28,6 +28,22 @@ import { Popup } from 'vant';
 Vue.use(Popup);
 import { Picker } from 'vant';
 Vue.use(Picker);
+import { Search } from 'vant';
+Vue.use(Search);
+import { Collapse, CollapseItem } from 'vant';
+Vue.use(Collapse).use(CollapseItem);
+import { Button } from 'vant';
+Vue.use(Button);
+import { Toast } from 'vant';
+Vue.use(Toast);
+import VueSweetAlert from './plugins/vue-sweetalert.js'
+Vue.use(VueSweetAlert)
+import { SwitchCell } from 'vant';
+Vue.use(SwitchCell);
+import { DatetimePicker } from 'vant';
+Vue.use(DatetimePicker);
+import { Checkbox, CheckboxGroup } from 'vant';
+Vue.use(Checkbox).use(CheckboxGroup);
 
 new Vue({
   el: '#app',

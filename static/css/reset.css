@@ -96,3 +96,15 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.van-nav-bar{
+  background-color: #FB4D3D;
+}
+.van-nav-bar .van-icon{
+  color: #fff;
+}
+.van-nav-bar__text{
+  color: #fff;
+}
+.van-nav-bar__title{
+  color: #fff;
+}

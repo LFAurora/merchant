@@ -53,7 +53,10 @@
             <div class="model" v-if="showModel">
               <label for="">型号</label>
               <input type="text" v-model="item.model">
-              <input type="file">
+              <div class="upload_warp_left1 room_add_btn" >
+                <input type="file" id="upp"  @change='add_img'>
+                <img src="./upload.png">
+              </div>
             </div>
             <div class="price">
               <label for="">价格</label>
@@ -63,6 +66,9 @@
             <div class="inventory">
               <label for="">库存</label>
               <input type="text" v-model="item.inventory">
+            </div>
+            <div v-if="showModel" v-for='(item ,index ) in imgs' class='room_img'>
+              <img :src="item">
             </div>
           </div>
         </div>
@@ -94,12 +100,14 @@
         test:[{}],
         showModel:false,
         imgList: [],
+        imgs:[],
         size: 0,
         list_name:'',
         showPop: false,
         columns: ['蔬菜', '水果', '调味品', '刀具']
       }
     },
+    props:{},
     methods: {
       IsshowPop(){
         this.showPop=true
@@ -133,12 +141,16 @@
         const index = e.target.getAttribute("index");
         if(index==0 && this.test.length==1){
           this.showModel = !this.showModel
+          this.imgs.splice(0,this.imgs.length)
         }else{
           this.test.splice(index,1);
         }
       },
       fileClick() {
         document.getElementById('upload_file').click()
+      },
+      fileClicka() {
+        document.getElementById('upp').click()
       },
       fileChange(el) {
         if (!el.target.files[0].size) return;
@@ -206,6 +218,32 @@
         this.size = this.size - this.imgList[index].file.size;//总大小
         this.imgList.splice(index, 1);
       },
+      dataURLtoBlob(dataurl){
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+      },
+      add_img(event){
+        var reader =new FileReader();
+        var img1=event.target.files[0];
+        reader.readAsDataURL(img1);
+        var that=this;
+        if(that.imgs.length>=1){
+          reader.onloadend=function(){
+            that.imgs.splice(0,1,reader.result)
+            console.log(that.dataURLtoBlob(reader.result));
+          }
+        }else{
+          reader.onloadend=function(){
+            that.imgs.push(reader.result)
+            console.log(that.dataURLtoBlob(reader.result));
+          }
+        }
+
+      }
     }
   }
 </script>
@@ -215,7 +253,7 @@
     margin-top: 44px;
   }
   .van-nav-bar{
-    background-color: #FB4D3D;
+    background-color: rgb(231, 20, 26);
   }
   .van-nav-bar .van-icon{
     color: #fff;
@@ -244,6 +282,7 @@
   }
   .model{
     padding-top: 10px;
+    position: relative;
   }
   .price{
     padding-top: 20px;
@@ -256,7 +295,7 @@
     border: 1px solid lightgray;
     margin-left: 5vw;
     width: 65vw;
-    height: 30px;
+    height: 35px;
   }
   .del_model_btn{
     border: none;
@@ -272,9 +311,8 @@
   }
   .model_btn{
     width: 100vw;
-    height: 50px;
+    height: 60px;
     display: flex;
-    /*vertical-align: center;*/
     flex-direction:row-reverse;
   }
 
@@ -297,8 +335,6 @@
     font-size: 12px;
     text-indent: 4px;
   }
-
-
 
   .upload_warp_img_div img {
     max-width: 100%;
@@ -326,14 +362,6 @@
     overflow: hidden
   }
 
-  .upload_warp_text {
-    text-align: left;
-    margin-bottom: 10px;
-    padding-top: 10px;
-    text-indent: 14px;
-    border-top: 1px solid #ccc;
-    font-size: 14px;
-  }
   .upload_warp_left img {
     margin-top: 32px;
   }
@@ -347,24 +375,97 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  .upload_warp_left1{
+    position: absolute;
+    top: 14px;
+    left: 70vw;
+    z-index: 9999;
+  }
+  .upload_warp_left1 img{
+    width: 30px;
+    height: 30px;
+  }
 
   .upload_warp {
     margin: 14px;
-    height: 130px;
+    height: 140px;
   }
 
   .upload {
     border: 1px solid #ccc;
     background-color: #fff;
-    width: 100vw;
+    width: 99vw;
     box-shadow: 0px 1px 0px #ccc;
     border-radius: 4px;
   }
 
   .hello {
-    width: 100vw;
+    width: 99vw;
     /*margin-left: 34%;*/
     text-align: center;
   }
-
+  .van-cell__title, .van-cell__value{
+    font-size: 17px;
+  }
+  .van-cell{
+    line-height: 40px;
+  }
+  .finish_room{
+    width: auto;
+    height: auto;
+  }
+  .finish_room2{
+    width: 100%;
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #e1e1e1;
+  }
+  .finish_room2 .room_img{
+    width: 150px;
+    height: 100px;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .finish_room2 .room_img img{
+    width: 100%;
+    height: 100%;
+  }
+  .finish_room2>.room_img span{
+    position: absolute;
+    width: auto;
+    height: auto;
+    right: 5px;
+    bottom:3px;
+  }
+  .room_add_btn{
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e1e1e1;
+    position: absolute;
+    /*top: -35px;*/
+    line-height: 40px;
+    text-align: center;
+    /*background: #00a6c6;*/
+    color: #fff;
+    border-radius: 4px;
+  }
+  .room_add_btn input{
+    position: absolute;
+    top: 0px;
+    left: -20px;
+    width: 30px;
+    height: 30px;
+    z-index: 99999;
+    opacity: 0;
+  }
+  .room_img img{
+    width: 15vw;
+    height: 15vw;
+    margin-bottom: 10px;
+    margin-left: 15vw;
+  }
 </style>

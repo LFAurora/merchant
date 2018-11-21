@@ -58,19 +58,19 @@
             <span>商品</span>
           </button>
         <!--</router-link>-->
-        <button>
+        <button @click="goTo('/main/order')">
           <i class="iconfont icon-74wodedingdan"></i><br/>
-          <span>订单收入</span>
+          <span>订单详情</span>
         </button>
       </div>
       <div class="cart_bottom">
-        <button>
-          <i class="iconfont icon-yingxiao_selected"></i><br/>
-          <span>营销推广</span>
+        <button @click="goTo('/main/income')">
+          <i class="iconfont icon-zichan"></i><br/>
+          <span>资产收入</span>
         </button>
         <button>
-          <i class="iconfont icon-foodmarketpurc"></i><br/>
-          <span>选货市场</span>
+          <i class="iconfont icon-pingjia1"></i><br/>
+          <span>客户评价</span>
         </button>
         <button>
           <i class="iconfont icon-fuwutiyanguanli"></i><br/>
@@ -106,6 +106,8 @@
     width: 100vw;
     height: 28vh;
     background-image: url("./images/wen.jpg");
+    /*background-color: #ff7100;*/
+    /*background: radial-gradient(#ff5a40, #ff6951, #ff7862); !* 标准的语法 *!*/
   }
   .name{
     line-height: 5vh;
@@ -177,6 +179,8 @@
     width: 66vw;
     height: 10vw;
     display: inline-block;
+    margin-left: 15vw;
+    margin-top: 5vw;
     /*background: red;*/
   }
   .shop_message{
@@ -232,13 +236,19 @@
     justify-content: space-between;
   }
   .cart_top button:nth-child(1){
-    background: red;
+    /*background: red;*/
+    background: radial-gradient(#ff4545,#ff2e2e,#ff1717,#ff0000 ); /* 标准的语法 */
+
   }
   .cart_top button:nth-child(2){
-    background: #008bf8;
+    /*background: #008bf8;*/
+    background: radial-gradient(#45aaf9,#2ea0f9,#1795f8,#008bf8 ); /* 标准的语法 */
   }
   .cart_top button:nth-child(3){
-    background: #8900c9;
+    /*background: #8900c9;*/
+    /*background: radial-gradient(#a945d7,#9e2ed2,#9317cd,#8900c9 ); !* 标准的语法 *!*/
+    /*background: radial-gradient(#8900c9,#9317cd,#9e2ed2); !* 标准的语法 *!*/
+    background: radial-gradient(#7100a5,#7d00b7,#8900c9 ); /* 标准的语法 */
   }
   .cart_bottom{
     margin-top: 3vh;

@@ -6,7 +6,7 @@
       left-arrow
       @click-left="$router.back()"
     />
-    <div id="myChart" style="width: 100vw;height: 400px;background-color: aquamarine"></div>
+    <div id="myChart" style="width: 100vw;height: 400px;background-color:lightsalmon"></div>
   </section>
 </template>
 
@@ -42,5 +42,16 @@
 </script>
 
 <style >
-
+  .van-nav-bar{
+    background-color: rgb(231, 20, 26);
+  }
+  .van-nav-bar .van-icon{
+    color: #fff;
+  }
+  .van-nav-bar__text{
+    color: #fff;
+  }
+  .van-nav-bar__title{
+    color: #fff;
+  }
 </style>
