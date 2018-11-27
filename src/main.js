@@ -44,6 +44,11 @@ import { DatetimePicker } from 'vant';
 Vue.use(DatetimePicker);
 import { Checkbox, CheckboxGroup } from 'vant';
 Vue.use(Checkbox).use(CheckboxGroup);
+import { Rate } from 'vant';
+Vue.use(Rate);
+import { Area } from 'vant';
+
+Vue.use(Area);
 
 new Vue({
   el: '#app',

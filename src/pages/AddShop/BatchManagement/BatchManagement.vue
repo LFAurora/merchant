@@ -8,40 +8,24 @@
       @click-left="$router.back()"
     />
     <div class="batch_main">
-      <div class="batch_commodity">
+      <div class="batch_commodity" v-for="(sh,index) in shop" :index="index">
         <div class="choose">
-          <van-checkbox class="check" v-model="checked" checked-color="rgb(231, 20, 26)"></van-checkbox>
+          <van-checkbox class="check" @click="checked"  v-model="sh.checked" checked-color="rgb(231, 20, 26)"></van-checkbox>
         </div>
         <div class="choose_commodity">
-          <img src="../images/git.jpg" alt="">
+          <img :src="sh.img" alt="">
           <div class="choose_commodity_msg">
-            <span>哈哈哈</span>
-            <span>￥ 500</span>
+            <span>{{sh.name}}</span>
+            <span>￥ {{sh.price}}</span>
             <div class="total">
-              <span>总销量 0</span>
-              <span>库存 500</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="batch_commodity">
-        <div class="choose">
-          <van-checkbox class="check" v-model="checked" checked-color="rgb(231, 20, 26)"></van-checkbox>
-        </div>
-        <div class="choose_commodity">
-          <img src="../images/git.jpg" alt="">
-          <div class="choose_commodity_msg">
-            <span>呵呵呵</span>
-            <span>￥ 500</span>
-            <div class="total">
-              <span>总销量 0</span>
-              <span>库存 500</span>
+              <span>总销量 {{sh.total}}</span>
+              <span>库存 {{sh.inventory}}</span>
             </div>
           </div>
         </div>
       </div>
       <div class="sold_out">
-        <span>删除</span>
+        <span @click="del_shop">删除</span>
         <span>下架</span>
       </div>
     </div>
@@ -52,7 +36,33 @@
   export default {
     data(){
       return{
-        checked:false
+        shop:[{
+          name:'哈哈哈',
+          inventory:500,
+          total:20,
+          price:'50',
+          checked:false,
+          img:require('../images/git.jpg')
+        },
+          {
+            name:'哈哈哈',
+            inventory:500,
+            total:20,
+            price:'50',
+            checked:false,
+            img:require('../images/git.jpg')
+          }],
+      }
+    },
+    methods:{
+      checked(e){
+        const index1 = e.target.getAttribute("index")
+        console.log(index1)
+        var aa=this.shop
+        aa[index1].checked=true
+      },
+      del_shop(){
+
       }
     }
   }

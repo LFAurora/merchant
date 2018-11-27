@@ -5,7 +5,7 @@
     </div>
     <div class="btn">
       <button class="sign_up" @click="goTo('/login')">sign up</button>
-      <button class="sign_in" @click="goTo('/login')">sign in</button>
+      <button class="sign_in" @click="goTo('/register')">sign in</button>
     </div>
   </section>
 </template>
@@ -15,7 +15,7 @@
   export default {
     methods:{
       goTo(path){
-        this.$router.replace(path)
+        this.$router.push(path)
       }
     },
     components:{

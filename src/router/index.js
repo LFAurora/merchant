@@ -6,7 +6,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../pages/Login/Login.vue'
-import  Home from '../pages/Home/Home.vue'
+import Register from '../pages/Register/Register.vue'
+import Home from '../pages/Home/Home.vue'
 import Main from '../pages/Main/Main.vue'
 import MyShop from '../pages/MyShop/MyShop.vue'
 import Message from '../pages/Message/Message.vue'
@@ -14,9 +15,12 @@ import Community from '../pages/Community/Community.vue'
 import Setting from '../pages/Setting/Setting.vue'
 import AddShop from '../pages/AddShop/AddShop.vue'
 import AddMain from '../pages/AddMain/AddMain.vue'
-import CategoryItem from '../pages/AddMain/CategoryItem/CategoryItem.vue'
 import Customer from '../pages/Customer/Customer.vue'
 import Order from '../pages/Order/Order.vue'
+import WaitPayment from '../pages/Order/WaitPayment/WaitPayment.vue'
+import AlreadyShipments from '../pages/Order/AlreadyShipments/AlreadyShipments.vue'
+import Refund from '../pages/Order/Refund/Refund.vue'
+import WaitShipments from '../pages/Order/WaitShipments/WaitShipments.vue'
 import Income from '../pages/Income/Income.vue'
 import AccountManagement from '../pages/Setting/AccountManagement/AccountManagement.vue'
 import Information from '../pages/Setting/AccountManagement/Information/Information.vue'
@@ -28,6 +32,16 @@ import Shop from '../pages/Setting/Shop/Shop.vue'
 import ChangePwd from '../pages/Setting/AccountManagement/ChangePwd/ChangePwd.vue'
 import BatchManagement from '../pages/AddShop/BatchManagement/BatchManagement.vue'
 import BatchManagementO from '../pages/AddShop/BatchManagement/BatchManagement1.vue'
+import UserMessage from '../pages/UserMessage/UserMessage.vue'
+import ManagerBirthday from '../pages/UserMessage/ManagerBirthday/ManagerBirthday.vue'
+import ShopSignature from '../pages/UserMessage/ShopSignature/ShopSignature.vue'
+import ShopName from '../pages/UserMessage/ShopName/ShopName.vue'
+import ShopAddress from '../pages/UserMessage/ShopAddress/ShopAddress.vue'
+import Evaluate from '../pages/Evaluate/Evaluate.vue'
+import AllEvaluate from '../pages/Evaluate/AllEvaluate/AllEvaluate.vue'
+import GoodReputation from '../pages/Evaluate/GoodReputation/GoodReputation.vue'
+import NegativeComment from '../pages/Evaluate/NegativeComment/NegativeComment.vue'
+import MediumReview from '../pages/Evaluate/MediumReview/MediumReview.vue'
 
 //声明使用插件
 Vue.use(VueRouter)
@@ -38,9 +52,10 @@ export default new VueRouter({
     {
       path:'/login',
       component:Login,
-      children: [
-
-      ]
+    },
+    {
+      path:'/register',
+      component:Register,
     },
     {
       path:'/forget',
@@ -50,7 +65,58 @@ export default new VueRouter({
       path:'/home',
       component:Home
     },
-
+    {
+      path:'/evaluate',
+      component:Evaluate,
+      children: [
+        {
+          path:'/evaluate/AllEvaluate',
+          component:AllEvaluate,
+        },
+        {
+          path:'/evaluate/GoodReputation',
+          component:GoodReputation,
+        },
+        {
+          path:'/evaluate/NegativeComment',
+          component:NegativeComment,
+        },
+        {
+          path:'/evaluate/MediumReview',
+          component:MediumReview,
+        },
+        {
+          path:'',
+          redirect:'/evaluate/AllEvaluate'
+        },
+      ]
+    },
+    {
+      path:'/order',
+      component:Order,
+      children:[
+        {
+          path:'/order/WaitShipments',
+          component:WaitShipments,
+        },
+        {
+          path:'/order/WaitPayment',
+          component:WaitPayment,
+        },
+        {
+          path:'/order/Refund',
+          component:Refund,
+        },
+        {
+          path:'/order/AlreadyShipments',
+          component:AlreadyShipments,
+        },
+        {
+          path:'',
+          redirect:'/order/WaitShipments'
+        },
+      ]
+    },
     {
       path:'/',
       redirect:'/home'
@@ -96,20 +162,12 @@ export default new VueRouter({
           component:AddShop,
         },
         {
-          path:'/main/category',
-          component:CategoryItem,
-        },
-        {
           path:'',
           redirect:'/main/myshop'
         },
         {
           path:'/main/customer',
           component:Customer,
-        },
-        {
-          path:'/main/order',
-          component:Order,
         },
         {
           path:'/main/income',
@@ -150,6 +208,26 @@ export default new VueRouter({
         {
           path:'/main/batchO',
           component:BatchManagementO,
+        },
+        {
+          path:'/main/userMessage',
+          component:UserMessage,
+        },
+        {
+          path:'/main/shopName',
+          component:ShopName,
+        },
+        {
+          path:'/main/ManagerBirthday',
+          component:ManagerBirthday,
+        },
+        {
+          path:'/main/ShopSignature',
+          component:ShopSignature,
+        },
+        {
+          path:'/main/ShopAddress',
+          component:ShopAddress,
         },
       ]
     },

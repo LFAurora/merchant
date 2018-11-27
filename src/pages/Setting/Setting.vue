@@ -57,9 +57,7 @@
     line-height: 5.8vh;
   }
   .setting{
-    height: 100vh;
     background-color: #f1f1f1;
-    /*overflow: hidden;*/
   }
   .login_out{
     width: 86vw;

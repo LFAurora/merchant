@@ -5,13 +5,15 @@
   "author": "liufei <894899162@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --host 172.26.42.20",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "echarts": "^4.2.0-rc.2",
+    "exif-js": "^2.3.0",
     "js-base64": "^2.4.9",
     "mint-ui": "^2.2.13",
     "npm": "^6.4.1",

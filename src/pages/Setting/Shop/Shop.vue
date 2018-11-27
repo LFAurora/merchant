@@ -20,7 +20,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .van-nav-bar{
     background-color: rgb(231, 20, 26);
   }

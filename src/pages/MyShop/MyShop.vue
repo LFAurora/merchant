@@ -15,28 +15,30 @@
           </a>
         </span>
       </div>
-      <div class="show_my">
+      <div class="show_my" @click="goTo('/main/userMessage')">
         <div class="user_message">
-          <img src="./images/head.jpg" alt="">
+          <img src="../AddShop/images/git.jpg" alt="">
           <div class="login_message">
             <span >lalalal</span>
+            <span>"{{shopNotices}}"</span>
           </div>
         </div>
         <div class="shop_message">
           <div>
-            <span>1</span>
+            <span>{{clientNum}}</span>
             <span>客户总数</span>
           </div>
           <div>
-            <span>10</span>
+            <span>{{commodityNum}}</span>
             <span>商品总数</span>
           </div>
           <div>
-            <span>100</span>
+            <span>{{indentNum}}</span>
             <span>待处理订单</span>
           </div>
           <div>
-            <span>￥1000000000000</span>
+            <span v-if="moneyNum<=10000">￥{{moneyNum}}</span>
+            <span v-else>￥{{moneyNum/10000}}w</span>
             <span>交易金额</span>
           </div>
 
@@ -58,7 +60,7 @@
             <span>商品</span>
           </button>
         <!--</router-link>-->
-        <button @click="goTo('/main/order')">
+        <button @click="goTo('/order')">
           <i class="iconfont icon-74wodedingdan"></i><br/>
           <span>订单详情</span>
         </button>
@@ -68,7 +70,7 @@
           <i class="iconfont icon-zichan"></i><br/>
           <span>资产收入</span>
         </button>
-        <button>
+        <button @click="goTo('/evaluate')">
           <i class="iconfont icon-pingjia1"></i><br/>
           <span>客户评价</span>
         </button>
@@ -84,6 +86,15 @@
 <script>
   import { NoticeBar } from 'vant';
   export default {
+    data(){
+      return{
+        clientNum:123,
+        commodityNum:111,
+        indentNum:123,
+        moneyNum:5000000,
+        shopNotices:'你好啊',//店铺签名
+      }
+    },
     components:{
       NoticeBar
     },
@@ -91,11 +102,19 @@
       goTo(path){
         this.$router.push(path)
       }
+    },
+    watch:{
+      moneyNum:function(val,oldval){
+        if(val>=10000){
+          oldval=val/10000 +'w'
+        }
+        console.log(val,oldval)
+      }
     }
   }
 </script>
 
-<style>
+<style scoped>
 
   .my_shop{
     width: 100vw;
@@ -106,8 +125,6 @@
     width: 100vw;
     height: 28vh;
     background-image: url("./images/wen.jpg");
-    /*background-color: #ff7100;*/
-    /*background: radial-gradient(#ff5a40, #ff6951, #ff7862); !* 标准的语法 *!*/
   }
   .name{
     line-height: 5vh;
@@ -165,23 +182,32 @@
   }
   .user_message{
     width: 80vw;
-    height: 8vh;
+    height: 15vw;
     margin-left: 2vw;
     display: flex;
     align-items:center;
     justify-content:space-between;
   }
   .user_message img{
-    width: 10vw;
-    height: 10vw;
+    width: 12vw;
+    height: 12vw;
+    margin-top: 5vw;
+    margin-left: 2vw;
   }
   .login_message{
     width: 66vw;
-    height: 10vw;
+    height: 12vw;
     display: inline-block;
-    margin-left: 15vw;
+    margin-left: 5vw;
     margin-top: 5vw;
-    /*background: red;*/
+    position: relative;
+  }
+  .login_message>span{
+    display: block;
+  }
+  .login_message>span:nth-child(2){
+    position: absolute;
+    bottom: 1vw;
   }
   .shop_message{
     width: 80vw;

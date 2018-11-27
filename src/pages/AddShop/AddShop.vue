@@ -7,6 +7,7 @@
       fixed
       @click-left="$router.back()"
     />
+
     <div style="height: 100vh;overflow: hidden" v-if="!show">
       <div class="add_before" >
         <h1 class="add_title">添加高品质好货</h1>
@@ -15,9 +16,9 @@
       </div>
     </div>
     <div class="add_after" v-else>
-      <van-notice-bar mode="link">
-        足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。
-      </van-notice-bar>
+      <!--<van-notice-bar mode="closeable">-->
+        <!--足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。-->
+      <!--</van-notice-bar>-->
       <van-tabs  sticky>
         <van-tab  :title="'出售中（5）'">
           <div class="sort">
@@ -27,7 +28,36 @@
             <span>库存</span>
           </div>
           <div class="aa">
-            <div class="shop">
+            <div class="shopaa">
+              <img src="./images/git.jpg" alt="">
+              <div class="detial">
+                <span>你好</span>
+                <span>￥ 500.00</span>
+                <div class="shop_msg">
+                  <div class="mm">
+                    <span>总销量 0</span>
+                    <span>成交额 5000.00</span>
+                  </div>
+                  <div class="ss">
+                    <span>库存 30</span>
+                    <span>添加 2018-06-15</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="show_menu">
+              <div class="generalize">
+                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
+                <span>推广</span>
+              </div>
+              <div class="share">
+                <span class="iconfont icon-share"></span>
+                <span>分享</span>
+              </div>
+            </div>
+          </div>
+          <div class="aa" @touchstart.prevent="touchin()" @touchend.prevent="cleartime()">
+            <div class="shopaa">
               <img src="./images/git.jpg" alt="">
               <div class="detial">
                 <span>你好</span>
@@ -56,7 +86,7 @@
             </div>
           </div>
           <div class="aa">
-            <div class="shop">
+            <div class="shopaa">
               <img src="./images/git.jpg" alt="">
               <div class="detial">
                 <span>你好</span>
@@ -85,7 +115,7 @@
             </div>
           </div>
           <div class="aa">
-            <div class="shop">
+            <div class="shopaa">
               <img src="./images/git.jpg" alt="">
               <div class="detial">
                 <span>你好</span>
@@ -114,36 +144,7 @@
             </div>
           </div>
           <div class="aa">
-            <div class="shop">
-              <img src="./images/git.jpg" alt="">
-              <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
-                <div class="shop_msg">
-                  <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
-                  </div>
-                  <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="show_menu">
-              <div class="generalize">
-                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
-                <span>推广</span>
-              </div>
-              <div class="share">
-                <span class="iconfont icon-share"></span>
-                <span>分享</span>
-              </div>
-            </div>
-          </div>
-          <div class="aa">
-            <div class="shop">
+            <div class="shopaa">
               <img src="./images/git.jpg" alt="">
               <div class="detial">
                 <span>你好</span>
@@ -172,7 +173,7 @@
             </div>
           </div>
           <div class="aa" style="padding-bottom: 50px">
-            <div class="shop">
+            <div class="shopaa">
               <img src="./images/git.jpg" alt="">
               <div class="detial">
                 <span>你好</span>
@@ -213,14 +214,14 @@
             <span>库存</span>
           </div>
           <div class="aa">
-            <div class="shop">
+            <div class="shopaa">
               <img src="./images/git.jpg" alt="">
               <div class="detial">
                 <span>你好</span>
                 <span>￥ 500.00</span>
                 <div class="shop_msg">
                   <div class="mm">
-                    <span>总销量 0</span>
+                    <span>总销量0</span>
                     <span>成交额 5000.00</span>
                   </div>
                   <div class="ss">
@@ -247,6 +248,10 @@
           </van-tabbar>
         </van-tab>
       </van-tabs>
+      <van-popup v-model="showaa">
+        <button class="del" @click="delShop">删除</button>
+        <button class="del">下架</button>
+      </van-popup>
     </div>
   </section>
 </template>
@@ -260,18 +265,47 @@
       return{
         show:true,
         active: 0,
+        showaa:false,
       }
     },
     methods: {
-
       goTo(path){
         this.$router.replace(path)
       },
+      touchin() {
+        clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
+        this.Loop = setTimeout(function() {
+          this.showaa=true
+        }.bind(this), 1000);
+      },
+      cleartime() {
+        // 这个方法主要是用来将每次手指移出之后将计时器清零
+        clearInterval(this.Loop);
+      },
+      delShop(){
+        this.showaa=false
+        this.$swal({
+          text: '你确定要删除所选项吗?',
+          confirmButtonText: '狠心删除',
+          cancelButtonText: '不，容我再想想'
+        }).then((res) => {
+           if (res.value) {
+             this.$swal({
+               title:'删除成功',
+               type:'success',
+               cancelButton:false
+             })
+           }
+        })
+      }
     }
   }
 </script>
 
-<style>
+<style scoped>
+  .van-n.av-bar__text{
+    color: #fff;
+  }
   .van-nav-bar{
     background-color: rgb(231, 20, 26);
   }
@@ -318,17 +352,19 @@
     color: #FB4D3D;
     margin: 3vh auto;
   }
-  .add_after{
-    margin-top: 44px;
+  .add_after {
+    position: absolute;
+    top: 44px;
   }
-  .shop{
+
+  .shopaa{
     width: 100vw;
     height: 35vw;
     background-color: white;
     border-top: 1px solid #f1f1f1;
     border-bottom: 1px solid #f1f1f1;
   }
-  .shop img{
+  .shopaa img{
     width: 25vw;
     height: 25vw;
     margin-top: 5vw;
@@ -357,15 +393,16 @@
   }
   .mm{
     margin-top: 2vw;
-    line-height: 7vw;
+    line-height: 5vw;
+    /*width: 60vw;*/
   }
   .mm>span:nth-child(1){
     display: inline-block;
-    width: 12vw;
+    width: 15vw;
   }
   .ss>span:nth-child(1){
     display: inline-block;
-    width: 12vw;
+    width: 15vw;
   }
   .icon{
     display: inline-block;
@@ -411,6 +448,15 @@
   }
   .sa{
     color: #fe151e !important;
+  }
+  .del{
+    width: 80vw;
+    height: 6vh;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    background-color: white;
+    border-top: 1px solid lightgrey;
   }
 
 </style>

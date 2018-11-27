@@ -6,36 +6,37 @@
       left-arrow
       @click-left="$router.back()"
     />
-    <van-search placeholder="商品订单号|手机号码|姓名|物流单" />
+    <van-search placeholder="商品订单号|手机号码|姓名" readonly />
     <van-tabs>
       <van-tab title="进行中" >
         <div class="running">
-          <div class="active">
+          <div :class="{active:'/order/WaitShipments'===$route.path}" @click="goTo('/order/WaitShipments')">
             <span>0</span>
             <span>待发货</span>
           </div>
-          <div>
+          <span style="line-height: 10vh;color: #eeeeee;">|</span>
+          <div :class="{active:'/order/WaitPayment'===$route.path}" @click="goTo('/order/WaitPayment')">
             <span>0</span>
-            <span>代付款</span>
+            <span>待付款</span>
           </div>
-          <div>
+          <span style="line-height: 10vh;color: #eeeeee;">|</span>
+          <div :class="{active:'/order/AlreadyShipments'===$route.path}" @click="goTo('/order/AlreadyShipments')">
             <span>0</span>
             <span>已发货</span>
           </div>
-          <div>
+          <span style="line-height: 10vh;color: #eeeeee;">|</span>
+          <div :class="{active:'/order/Refund'===$route.path}" @click="goTo('/order/Refund')">
             <span>0</span>
             <span>退款/售后</span>
           </div>
         </div>
-        <div>
-          <img src="" alt="">
-        </div>
+        <router-view></router-view>
       </van-tab>
       <van-tab title="已完成">
-        内容 2
+        <AlreadyComplete/>
       </van-tab>
       <van-tab title="已关闭">
-        内容 3
+        <AlreadyClose/>
       </van-tab>
     </van-tabs>
   </section>
@@ -43,8 +44,17 @@
 </template>
 
 <script>
+  import AlreadyComplete from '../../components/AlreadyComplete/AlreadyComplete.vue'
+  import AlreadyClose from '../../components/AlreadyClose/AlreadyClose.vue'
   export default {
     components:{
+      AlreadyComplete,
+      AlreadyClose
+    },
+    methods:{
+      goTo(path){
+        this.$router.replace(path)
+      }
     }
   }
 </script>
@@ -63,11 +73,13 @@
     color: #fff;
   }
   .order_main{
-    background-color: #f1f1f1;
+    background-color: #eeeeee;
+    height: 100vh;
   }
   .running{
     height: 10vh;
     display: flex;
+    background-color: #fbfbfb;
     justify-content: space-around;
   }
   .running>div{
@@ -83,9 +95,5 @@
   }
   .active{
     background-color: white;
-  }
-  .van-tabs__line{
-    width: 33vw !important;
-    transform: translateX(0) !important;
   }
 </style>

@@ -10,9 +10,6 @@
       @click-right="onClickRight"
     />
     <van-list>
-      <van-notice-bar :scrollable="false" mode="link">
-        禁止无资质上架食材等物品
-      </van-notice-bar>
       <form>
         <div class="hello">
           <div class="upload">
@@ -32,7 +29,7 @@
             </div>
           </div>
         </div>
-        <van-cell-group>
+        <van-cell-group >
           <van-field
             label="标题"
             type="textarea"
@@ -54,27 +51,34 @@
               <label for="">型号</label>
               <input type="text" v-model="item.model">
               <div class="upload_warp_left1 room_add_btn" >
-                <input type="file" id="upp"  @change='add_img'>
+                <input type="file" id="upp" :index="index" @change='add_img'>
                 <img src="./upload.png">
               </div>
             </div>
             <div class="price">
               <label for="">价格</label>
               <input type="text" v-model="item.price">
-              <button :index="index" class="iconfont icon-jian del_model_btn" v-if="showModel" @click="deleteModel($event)"></button>
+              <button :index="index" class="iconfont icon-jian del_model_btn" v-if="showModel" @click.prevent="deleteModel($event)"></button>
             </div>
             <div class="inventory">
               <label for="">库存</label>
               <input type="text" v-model="item.inventory">
             </div>
-            <div v-if="showModel" v-for='(item ,index ) in imgs' class='room_img'>
-              <img :src="item">
+            <div v-if="showModel" class='room_img'>
+              <img :src="item.img" v-if="item.isImg" ref="goodsImg">
             </div>
           </div>
         </div>
         <div class="model_btn">
-          <button @click="addModel" class="iconfont icon-jia1 add_model">添加商品型号</button>
+          <button @click.prevent="addModel" class="iconfont icon-jia1 add_model">添加商品型号</button>
         </div>
+        <van-cell-group >
+          <van-field @click="IsShowFreight"
+                     label="运费模板"
+                     icon="arrow" readonly
+                     v-model="template_of_freight"
+          />
+        </van-cell-group>
         <div>
           <van-cell-group>
             <van-field
@@ -88,6 +92,9 @@
       <van-popup v-model="showPop" position="bottom" :overlay="false">
          <van-picker show-toolbar title="请选择商品的分类" :columns="columns" @cancel="onCancel" @confirm="onConfirm" />
       </van-popup>
+      <van-popup v-model="showFreight" position="bottom" :overlay="false">
+         <van-picker show-toolbar title="请选择商品的分类" :columns="showFreightColumns" @cancel="onCancelFreight" @confirm="onConfirmFreight" />
+      </van-popup>
     </van-list>
 
   </section>
@@ -97,14 +104,22 @@
   export default {
     data(){
       return{
-        test:[{}],
+        test:[{
+          model: "",
+          price: "",
+          img: "",
+          inventory: "",
+          isImg: false
+        }],
         showModel:false,
         imgList: [],
-        imgs:[],
         size: 0,
         list_name:'',
+        template_of_freight:'',
         showPop: false,
-        columns: ['蔬菜', '水果', '调味品', '刀具']
+        showFreight:false,
+        columns: ['蔬菜', '水果', '调味品', '刀具'],
+        showFreightColumns:['默认运费模板','全国地区包邮','包邮(除偏远地区外)']
       }
     },
     props:{},
@@ -112,13 +127,22 @@
       IsshowPop(){
         this.showPop=true
       },
+      IsShowFreight(){
+        this.showFreight=true
+      },
       onConfirm(value, index) {
         this.list_name = value
         this.showPop=false
-        // console.log(`当前值：${value}, 当前索引：${index}`);
       },
       onCancel() {
         this.showPop=false
+      },
+      onConfirmFreight(value, index) {
+        this.template_of_freight = value
+        this.showFreight=false
+      },
+      onCancelFreight() {
+        this.showFreight=false
       },
 
       goTo(path){
@@ -134,15 +158,24 @@
         if(this.showModel==false){
           this.showModel = !this.showModel
         }else{
-          this.test.push({})
+          this.test.push({
+            model: "",
+            price: "",
+            img: "",
+            inventory: "",
+            isImg: false
+          })
         }
       },
       deleteModel(e){
         const index = e.target.getAttribute("index");
         if(index==0 && this.test.length==1){
           this.showModel = !this.showModel
-          this.imgs.splice(0,this.imgs.length)
+          this.test[index].img=''
+          this.test[index].isImg=false
+          console.log(this.test)
         }else{
+          console.log(this.test)
           this.test.splice(index,1);
         }
       },
@@ -218,37 +251,24 @@
         this.size = this.size - this.imgList[index].file.size;//总大小
         this.imgList.splice(index, 1);
       },
-      dataURLtoBlob(dataurl){
-        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new Blob([u8arr], {type:mime});
-      },
       add_img(event){
-        var reader =new FileReader();
-        var img1=event.target.files[0];
-        reader.readAsDataURL(img1);
-        var that=this;
-        if(that.imgs.length>=1){
-          reader.onloadend=function(){
-            that.imgs.splice(0,1,reader.result)
-            console.log(that.dataURLtoBlob(reader.result));
-          }
-        }else{
-          reader.onloadend=function(){
-            that.imgs.push(reader.result)
-            console.log(that.dataURLtoBlob(reader.result));
-          }
+        var index = event.target.getAttribute("index")
+        var reader =new FileReader()
+        var img1=event.target.files[0]
+        reader.readAsDataURL(img1)
+        var objArr = this.test
+        // console.log(objArr)
+        reader.onloadend=function(){
+          objArr[index].isImg = true
+          objArr[index].img = reader.result
         }
-
-      }
+        this.test = objArr
+      },
     }
   }
 </script>
 
-<style >
+<style>
   .van-list{
     margin-top: 44px;
   }
@@ -274,7 +294,6 @@
   .add_shop_model{
     margin-top: 20px;
     width: 100vw;
-    /*height: 150px;*/
     background: white;
   }
   .add_shop_model>div{
