@@ -15,7 +15,7 @@
             >
               <van-cell>
                 <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
+                  <img src="../../../static/images/git.jpg" alt="">
                   <div class="mark">
                     <div class="time">
                       <span >商学院</span>
@@ -27,43 +27,7 @@
               </van-cell>
               <van-cell>
                 <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
-                  <div class="mark">
-                    <div class="time">
-                      <span >商学院</span>
-                      <span>2018-10-27</span>
-                    </div>
-                    <span>还在抱怨推广难?</span>
-                  </div>
-                </div>
-              </van-cell>
-              <van-cell>
-                <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
-                  <div class="mark">
-                    <div class="time">
-                      <span >商学院</span>
-                      <span>2018-10-27</span>
-                    </div>
-                    <span>还在抱怨推广难?</span>
-                  </div>
-                </div>
-              </van-cell>
-              <van-cell>
-                <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
-                  <div class="mark">
-                    <div class="time">
-                      <span >商学院</span>
-                      <span>2018-10-27</span>
-                    </div>
-                    <span>还在抱怨推广难?</span>
-                  </div>
-                </div>
-              </van-cell>
-              <van-cell>
-                <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
+                  <img src="../../../static/images/git.jpg" alt="">
                   <div class="mark">
                     <div class="time">
                       <span >商学院</span>
@@ -85,7 +49,7 @@
             >
               <van-cell>
                 <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
+                  <img src="../../../static/images/git.jpg" alt="">
                   <div class="mark">
                     <div class="time">
                       <span >店长消息</span>
@@ -97,43 +61,7 @@
               </van-cell>
               <van-cell>
                 <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
-                  <div class="mark">
-                    <div class="time">
-                      <span >商学院</span>
-                      <span>2018-10-27</span>
-                    </div>
-                    <span>还在抱怨推广难?</span>
-                  </div>
-                </div>
-              </van-cell>
-              <van-cell>
-                <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
-                  <div class="mark">
-                    <div class="time">
-                      <span >商学院</span>
-                      <span>2018-10-27</span>
-                    </div>
-                    <span>还在抱怨推广难?</span>
-                  </div>
-                </div>
-              </van-cell>
-              <van-cell>
-                <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
-                  <div class="mark">
-                    <div class="time">
-                      <span >商学院</span>
-                      <span>2018-10-27</span>
-                    </div>
-                    <span>还在抱怨推广难?</span>
-                  </div>
-                </div>
-              </van-cell>
-              <van-cell>
-                <div class="inform_container">
-                  <img src="./images/head.jpg" alt="">
+                  <img src="../../../static/images/git.jpg" alt="">
                   <div class="mark">
                     <div class="time">
                       <span >商学院</span>

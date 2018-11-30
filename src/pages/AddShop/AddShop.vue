@@ -27,165 +27,20 @@
             <span>成交额</span>
             <span>库存</span>
           </div>
-          <div class="aa">
-            <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
+          <div class="aa" @click="goTo('/main/CompileShop')" v-for="(shop,index) in shopMsg" @touchstart="touchin()" @touchend="cleartime()">
+            <div class="shopaa"  >
+              <img :src="shop.img" alt="">
               <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
+                <span>{{shop.shopName}}</span>
+                <span>￥ {{shop.price}}</span>
                 <div class="shop_msg">
                   <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
+                    <span>总销量 {{shop.grossSales}}</span>
+                    <span>成交额 {{shop.volumeOfBusiness}}</span>
                   </div>
                   <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="show_menu">
-              <div class="generalize">
-                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
-                <span>推广</span>
-              </div>
-              <div class="share">
-                <span class="iconfont icon-share"></span>
-                <span>分享</span>
-              </div>
-            </div>
-          </div>
-          <div class="aa" @touchstart.prevent="touchin()" @touchend.prevent="cleartime()">
-            <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
-              <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
-                <div class="shop_msg">
-                  <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
-                  </div>
-                  <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="show_menu">
-              <div class="generalize">
-                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
-                <span>推广</span>
-              </div>
-              <div class="share">
-                <span class="iconfont icon-share"></span>
-                <span>分享</span>
-              </div>
-            </div>
-          </div>
-          <div class="aa">
-            <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
-              <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
-                <div class="shop_msg">
-                  <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
-                  </div>
-                  <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="show_menu">
-              <div class="generalize">
-                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
-                <span>推广</span>
-              </div>
-              <div class="share">
-                <span class="iconfont icon-share"></span>
-                <span>分享</span>
-              </div>
-            </div>
-          </div>
-          <div class="aa">
-            <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
-              <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
-                <div class="shop_msg">
-                  <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
-                  </div>
-                  <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="show_menu">
-              <div class="generalize">
-                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
-                <span>推广</span>
-              </div>
-              <div class="share">
-                <span class="iconfont icon-share"></span>
-                <span>分享</span>
-              </div>
-            </div>
-          </div>
-          <div class="aa">
-            <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
-              <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
-                <div class="shop_msg">
-                  <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
-                  </div>
-                  <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="show_menu">
-              <div class="generalize">
-                <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
-                <span>推广</span>
-              </div>
-              <div class="share">
-                <span class="iconfont icon-share"></span>
-                <span>分享</span>
-              </div>
-            </div>
-          </div>
-          <div class="aa" style="padding-bottom: 50px">
-            <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
-              <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
-                <div class="shop_msg">
-                  <div class="mm">
-                    <span>总销量 0</span>
-                    <span>成交额 5000.00</span>
-                  </div>
-                  <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
+                    <span>库存 {{shop.inventory}}</span>
+                    <span>添加 {{shop.addTime}}</span>
                   </div>
                 </div>
               </div>
@@ -213,20 +68,20 @@
             <span>成交额</span>
             <span>库存</span>
           </div>
-          <div class="aa">
+          <div class="aa" v-for="(rm,index) in removeShop">
             <div class="shopaa">
-              <img src="./images/git.jpg" alt="">
+              <img :src="rm.rImg" alt="">
               <div class="detial">
-                <span>你好</span>
-                <span>￥ 500.00</span>
+                <span>{{rm.rShopName}}</span>
+                <span>￥ {{rm.rPrice}}</span>
                 <div class="shop_msg">
                   <div class="mm">
-                    <span>总销量0</span>
-                    <span>成交额 5000.00</span>
+                    <span>总销量{{rm.rGrossSales}}</span>
+                    <span>成交额 {{rm.rVolumeOfBusiness}}</span>
                   </div>
                   <div class="ss">
-                    <span>库存 30</span>
-                    <span>添加 2018-06-15</span>
+                    <span>库存 {{rm.rInventory}}</span>
+                    <span>添加 {{rm.removeTime }}</span>
                   </div>
                 </div>
               </div>
@@ -248,10 +103,6 @@
           </van-tabbar>
         </van-tab>
       </van-tabs>
-      <van-popup v-model="showaa">
-        <button class="del" @click="delShop">删除</button>
-        <button class="del">下架</button>
-      </van-popup>
     </div>
   </section>
 </template>
@@ -263,6 +114,51 @@
   export default {
     data(){
       return{
+        shopMsg:[{
+          img:require('../../../static/images/git.jpg'),
+          shopName:'你好',
+          price:500.00,
+          grossSales:10,//总销量
+          volumeOfBusiness:50000,
+          inventory:50,
+          addTime:'2018-06-15'
+        },
+        {
+          img:require('../../../static/images/git.jpg'),
+          shopName:'你好',
+          price:500.00,
+          grossSales:10,
+          volumeOfBusiness:50000,
+          inventory:50,
+          addTime:'2018-09-15'
+        },
+          {
+            img:require('../../../static/images/git.jpg'),
+            shopName:'你好',
+            price:500.00,
+            grossSales:10,
+            volumeOfBusiness:50000,
+            inventory:50,
+            addTime:'2018-09-15'
+          },
+          {
+            img:require('../../../static/images/git.jpg'),
+            shopName:'你好',
+            price:500.00,
+            grossSales:10,
+            volumeOfBusiness:50000,
+            inventory:50,
+            addTime:'2018-09-15'
+          }],
+        removeShop:[{
+          rImg:require('../../../static/images/git.jpg'),
+          rShopName:'已下架',
+          rPrice:300,
+          rGrossSales:15,
+          rVolumeOfBusiness:3000,//商品成交额
+          rInventory:60,//库存
+          removeTime:'2018-09-15'//下架时间
+        }],
         show:true,
         active: 0,
         showaa:false,
@@ -270,7 +166,7 @@
     },
     methods: {
       goTo(path){
-        this.$router.replace(path)
+        this.$router.push(path)
       },
       touchin() {
         clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器

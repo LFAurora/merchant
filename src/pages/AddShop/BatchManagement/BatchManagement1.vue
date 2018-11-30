@@ -8,7 +8,7 @@
       @click-left="$router.back()"
     />
     <div class="batch_main">
-      <div class="batch_commodity" v-for="(sh,index) in shop">
+      <div class="batch_commodity" v-for="(sh,index) in shop" :key="index">
         <div class="choose">
           <van-checkbox class="check" v-model="sh.checked" checked-color="rgb(231, 20, 26)"></van-checkbox>
         </div>
@@ -42,7 +42,7 @@
           total:20,
           price:'50',
           checked:false,
-          img:require('../images/git.jpg')
+          img:require('../../../../static/images/git.jpg')
         },
           {
             name:'哈哈哈',
@@ -50,7 +50,7 @@
             total:20,
             price:'50',
             checked:false,
-            img:require('../images/git.jpg')
+            img:require('../../../../static/images/git.jpg')
           }],
       }
     }

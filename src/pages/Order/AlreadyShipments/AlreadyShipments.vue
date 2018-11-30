@@ -1,7 +1,7 @@
 <template>
   <section class="already_shipments">
     <div class="order_user">
-      <img src="../images/git.jpg" alt="">
+      <img src="../../../../static/images/git.jpg" alt="">
       <div class="order_user_msg">
         <span>收货人:{{consigneeName}}</span>
         <span>下单时间 : {{orderTime}}</span>

@@ -154,7 +154,7 @@
     color: #fff;
   }
   .register{
-    background-image: url("../../../static/images/lbg.jpg");
+    background-image: url("../../../static/images/loginImg/lbg.jpg");
     height: 100vh;
     background-size: auto 100%;
     background-repeat: no-repeat;

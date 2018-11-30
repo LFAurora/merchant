@@ -8,8 +8,8 @@
     />
     <div class="login_main">
       <form @submit.prevent="login" action="">
-        <input type="text" v-model="phone" placeholder="请输入你的手机号">
-        <input type="text" placeholder="6-20位字母数字组合密码">
+        <input type="text" name="userName" v-model="phone" placeholder="请输入你的手机号">
+        <input type="password" name="pwd" v-model="pwd" placeholder="6-20位字母数字组合密码">
         <h3 @click="To('/forget')">忘记密码</h3>
         <button class="login_btn">登录</button>
       </form>
@@ -18,9 +18,6 @@
 </template>
 
 <script>
-  // import {formatDate} from '../../../static/js/FormatDate.js'
-  import {reqLogin} from '../../api/index.js'
-  // import axios from 'axios'
   export default {
     data () {
       return {
@@ -39,8 +36,8 @@
       To (path) {
         this.$router.push(path)
       },
-      async login(){
-        const {phone,pwd} = this
+      login(){
+        // const {phone,pwd} = this
         if(!/^1\d{10}$/.test(this.phone)){
           //手机号格式不正确
           this.$swal({
@@ -50,47 +47,46 @@
             showCancelButton:false
           })
           return
-        }else if(!/^[A-Za-z0-9]{6,20}$/.test(pwd)){
-          //提示密码必须是6-20位字母数字组合
+        }else if(!/^1\d{10}$/.test(this.pwd)){
           this.$swal({
             type: 'error',
-            title: '您的输入有误',
-            text: '密码必须是6-20位字母数字组合!',
-            showCancelButton:false
-          })
-          return
-        }
-        //发送ajax请求登录
-        const result = await reqLogin(phone,pwd)
-        if(result.code===0){
-          // const user = result.data
-          //将user保存到vuex的state
-          //跳转路由
-          this.$swal({
-            type: 'success',
-            title: '恭喜您',
-            text: '登陆成功',
-            showCancelButton:false
-          }).then(() => {
-            this.$router.replace('/main')
-          })
-          // axios.post(url, {
-          //   name: "123"
-          // }).then(() => {
-          //
-          // }).catch(() => {
-          //
-          // })
-
-        }else{
-          const msg = result.msg
-          this.$swal({
-            type: 'error',
-            title: '您的输入有误',
-            text: result.msg,
+            title: '输入有误，请重新输入',
+            text: '密码不正确!',
             showCancelButton:false
           })
         }
+          const url = "http://192.168.1.57:8080//merchantMob/merchantUserMob/login"
+          var params = new URLSearchParams()
+          params.append('fAccount',this.phone)
+          params.append('fPassword',this.pwd)
+        // console.log(params.phone)
+          this.$axios({
+            method:'POST',
+            url:url,
+            data:params
+          }).then( (res)=>{
+            if(res.data.code === 200){
+              this.$swal({
+                type: 'success',
+                title: '恭喜您',
+                text: '登陆成功',
+                showCancelButton:false
+              }).then(() => {
+                this.$router.replace('/main')
+              })
+            }else if(res.data.code === 408){
+              // console.log(res)
+              const msg = res.data.msg
+              this.$swal({
+                type: 'error',
+                title: '您的输入有误',
+                text: msg,
+                showCancelButton:false
+              })
+            }
+          }).catch( (err) =>{
+            console.log(err)
+          })
       },
       ShowDate () {
         this.show = true
@@ -134,9 +130,9 @@
     color: #fff;
   }
   .login{
-    background-image: url("../../../static/images/lbg.jpg");
+    background-image: url("../../../static/images/loginImg/lbg.jpg");
     height: 100vh;
-    background-size: auto 100%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
   }
   .login_main{

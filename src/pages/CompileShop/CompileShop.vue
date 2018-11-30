@@ -21,13 +21,13 @@
             autosize
           />
         </van-cell-group>
-          <van-cell-group >
-            <van-field @click="IsshowPop"
-              label="类目"
-              icon="arrow" readonly
-              v-model="list_name"
-            />
-          </van-cell-group>
+        <van-cell-group >
+          <van-field @click="IsshowPop"
+                     label="类目"
+                     icon="arrow" readonly
+                     v-model="list_name"
+          />
+        </van-cell-group>
         <div>
           <div class="add_shop_model" v-for="(item,index) in test" :key="index">
             <div class="model" v-if="showModel">
@@ -72,9 +72,9 @@
           </van-cell-group>
         </div>
       </form>
-      <van-popup v-model="showPop" position="bottom" :overlay="false">
-         <van-picker show-toolbar title="请选择商品的分类" :columns="columns" @cancel="onCancel" @confirm="onConfirm" />
-      </van-popup>
+            <van-popup v-model="showPop" position="bottom" :overlay="false">
+               <van-picker show-toolbar title="请选择商品的分类" :columns="columns" @cancel="onCancel" @confirm="onConfirm" />
+            </van-popup>
       <van-popup v-model="showFreight" position="bottom" :overlay="false">
          <van-picker show-toolbar title="请选择商品的分类" :columns="showFreightColumns" @cancel="onCancelFreight" @confirm="onConfirmFreight" />
       </van-popup>
@@ -97,14 +97,17 @@
           isImg: false
         }],
         showModel:false,
-        imgList: [],
         size: 0,
         list_name:'',
         template_of_freight:'',
         showPop: false,
         showFreight:false,
         columns: ['蔬菜', '水果', '调味品', '刀具'],
-        showFreightColumns:['默认运费模板','全国地区包邮','包邮(除偏远地区外)']
+        showFreightColumns:['默认运费模板','全国地区包邮','包邮(除偏远地区外)'],
+        dynamicContent: "", //动态内容
+        imgList: [], //已上传的图片集合
+        FilecodeList: [],
+        isSubmit: false
       }
     },
     components: {
@@ -143,8 +146,6 @@
 
       goTo(path){
         console.log(123)
-        // this.$router.replace(path)
-        // this.$router.push(path)
       },
       onClickRight(){
         // alert('完成')

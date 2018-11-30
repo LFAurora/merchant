@@ -47,9 +47,14 @@ Vue.use(Checkbox).use(CheckboxGroup);
 import { Rate } from 'vant';
 Vue.use(Rate);
 import { Area } from 'vant';
-
 Vue.use(Area);
+import { Swipe, SwipeItem } from 'vant';
 
+Vue.use(Swipe).use(SwipeItem);
+import axios from 'axios'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+Vue.prototype.$axios = axios;
 new Vue({
   el: '#app',
   // store,

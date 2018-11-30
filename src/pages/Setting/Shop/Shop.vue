@@ -36,7 +36,7 @@
   .shop{
     width: 100vw;
     height: 100vh;
-    background: url("./images/shbg1.jpg");
+    background: url("../../../../static/images/bgImg/shbg1.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }

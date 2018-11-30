@@ -10,7 +10,7 @@
     <div class="message_main">
       <div class="message_title">
         <div class="message_title_main">
-          <img class="shop_logo_img" src="../AddShop/images/git.jpg" alt="">
+          <img class="shop_logo_img" src="../../../static/images/git.jpg" alt="">
           <div class="shop_detial">
             <span>啊啊啊</span>
             <span>{{people}}人关注</span>

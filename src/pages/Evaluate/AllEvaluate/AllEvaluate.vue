@@ -2,7 +2,7 @@
   <section class="all_evaluate">
     <div class="user_evaluate">
       <div class="user_photo">
-        <img src="../../MyShop/images/wen.jpg" alt="">
+        <img src="../../../../static/images/git.jpg" alt="">
       </div>
       <div class="user_about">
         <span class="user_name">你好啊</span>
@@ -20,7 +20,7 @@
         <span>{{evaluate}}</span>
       </div>
       <div class="evaluate_shop">
-        <img src="../../AddShop/images/git.jpg" alt="">
+        <img src="../../../../static/images/git.jpg" alt="">
         <div class="evaluate_shop_msg">
           <span>{{evaluateShopName}}</span>
           <span>￥{{evaluateShopPrice}}</span>

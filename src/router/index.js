@@ -15,6 +15,7 @@ import Community from '../pages/Community/Community.vue'
 import Setting from '../pages/Setting/Setting.vue'
 import AddShop from '../pages/AddShop/AddShop.vue'
 import AddMain from '../pages/AddMain/AddMain.vue'
+import CompileShop from '../pages/CompileShop/CompileShop.vue'
 import Customer from '../pages/Customer/Customer.vue'
 import Order from '../pages/Order/Order.vue'
 import WaitPayment from '../pages/Order/WaitPayment/WaitPayment.vue'
@@ -29,6 +30,7 @@ import Modification from '../pages/Setting/AccountManagement/Information/Modific
 import ForgetPassword from '../pages/Login/ForgetPassword/ForgetPassword.vue'
 import InformationNotification from '../pages/Setting/InformationNotification/InformationNotification.vue'
 import Shop from '../pages/Setting/Shop/Shop.vue'
+import ShopDecoration from '../pages/ShopDecoration/ShopDecoration.vue'
 import ChangePwd from '../pages/Setting/AccountManagement/ChangePwd/ChangePwd.vue'
 import BatchManagement from '../pages/AddShop/BatchManagement/BatchManagement.vue'
 import BatchManagementO from '../pages/AddShop/BatchManagement/BatchManagement1.vue'
@@ -158,8 +160,16 @@ export default new VueRouter({
           component:AddMain,
         },
         {
+          path:'/main/ShopDecoration',
+          component:ShopDecoration,
+        },
+        {
           path:'/main/addshop',
           component:AddShop,
+        },
+        {
+          path:'/main/CompileShop',
+          component:CompileShop,
         },
         {
           path:'',
