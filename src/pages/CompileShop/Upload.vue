@@ -1,9 +1,3 @@
-<!--
-Description 图片上传及预览组件
-@authors Benny
-@date    2018-05-08 12:57:08
-@version 1.0.0
--->
 <template>
   <div id="imgUploader">
     <div class="file-list">
@@ -79,13 +73,7 @@ Description 图片上传及预览组件
     data() {
       return {
         // lang: this.$lang("dynamic"),
-        files: [
-          {src:require('../../../static/images/git.jpg')},
-          {src:require('../../../static/images/git.jpg')},
-          {src:require('../../../static/images/git.jpg')},
-          {src:require('../../../static/images/git.jpg')},
-          {src:require('../../../static/images/git.jpg')},
-        ], // 文件缓存
+        files: [], // 文件缓存
         index: 0, // 序列号
         maxLength: 5, // 图片最大数量
         maxSize: 10240000 //图片限制为10M内
@@ -364,7 +352,6 @@ Description 图片上传及预览组件
         cursor: pointer;
         line-height: 12px;
         background: rgba(0, 0, 0, 0.25);
-        z-index: 1000;
       }
       &:hover .file-remove {
         display: inline;

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import {reqSendCode,reqRegister} from '../../api/index.js'
+  import Gloabal from '../../api/index.js'
   export default {
     data(){
       return{
@@ -33,7 +33,7 @@
     },
     methods:{
       //异步获取短信验证码
-      async getCode(){
+      getCode(){
         //如果当前没有计时
         if(!this.computeTime){
           //启动倒计时
@@ -46,8 +46,19 @@
             }
           },1000)
           //发送ajax请求(向指定手机号发送验证码短信)
-          const result = await reqSendCode(this.phone)
-          if(result.code===1){
+          const getCode = Gloabal.host+''
+          var params = new URLSearchParams()
+          params.append('',this.code)
+          this.$axios({
+            method: 'POST',
+            url:getCode,
+            data:params
+          }).then(res =>{
+            console.log(res)
+          }).catch( err =>{
+            console.log(err)
+          })
+          if(getCode.code===1){
             //显示提示
             this.$swal({
               type: 'error',
@@ -65,8 +76,8 @@
         }
       },
       //异步注册
-      async register(){
-        const {rightPhone,phone,code,shopName,pwd} = this
+      register(){
+
         if(!this.rightPhone){
           //手机号格式不正确
           this.$swal({
@@ -76,7 +87,7 @@
             showCancelButton:false
           })
           return
-        }else if(!/^\d{6}$/.test(code)){
+        }else if(!/^\d{6}$/.test(this.code)){
           //提示验证码必须是六位数字
           this.$swal({
             type: 'error',
@@ -85,7 +96,7 @@
             showCancelButton:false
           })
           return
-        }else if(!/^[\u4e00-\u9fa5]+$/.test(shopName)){
+        }else if(!/^[\u4e00-\u9fa5]+$/.test(this.shopName)){
           //提示店铺名必须是合法汉字
           this.$swal({
             type: 'error',
@@ -94,7 +105,7 @@
             showCancelButton:false
           })
           return
-        }else if(! /^[A-Za-z0-9]{6,20}$/.test(pwd)){
+        }else if(! /^[A-Za-z0-9]{6,20}$/.test(this.pwd)){
           //提示密码必须是6-20位字母数字组合
           this.$swal({
             type: 'error',
@@ -105,28 +116,60 @@
           return
         }
         //发送ajax请求注册
-        const result = await reqRegister({phone,code,shopName,pwd})
-        if(result.code===0){
-          // const user = result.data
-          //将user保存到vuex的state
-          //跳转路由
-          this.$swal({
-            type: 'success',
-            title: '恭喜您',
-            text: '注册成功',
-            showCancelButton:false
-          }).then(() =>{
-            this.$router.replace('/login')
-          })
-        }else{
-          const msg = result.msg
-          this.$swal({
-            type: 'error',
-            title: '您的输入有误',
-            text: result.msg,
-            showCancelButton:false
-          })
-        }
+        const url = Gloabal.host+''
+        var rParams = new URLSearchParams()
+        rParams.append('',this.phone)
+        rParams.append('',this.code)
+        rParams.append('',this.shopName)
+        rParams.append('',this.pwd)
+        this.$axios({
+          method:'POST',
+          url:url,
+          data:rParams
+        }).then(res =>{
+          if(res.code===200){
+            // const user = result.data
+            //将user保存到vuex的state
+            //跳转路由
+            this.$swal({
+              type: 'success',
+              title: '恭喜您',
+              text: '注册成功',
+              showCancelButton:false
+            }).then(() =>{
+              this.$router.replace('/login')
+            })
+          }else{
+            const msg = res.msg
+            this.$swal({
+              type: 'error',
+              title: '您的输入有误',
+              text: result.msg,
+              showCancelButton:false
+            })
+          }
+        })
+        // if(result.code===0){
+        //   // const user = result.data
+        //   //将user保存到vuex的state
+        //   //跳转路由
+        //   this.$swal({
+        //     type: 'success',
+        //     title: '恭喜您',
+        //     text: '注册成功',
+        //     showCancelButton:false
+        //   }).then(() =>{
+        //     this.$router.replace('/login')
+        //   })
+        // }else{
+        //   const msg = result.msg
+        //   this.$swal({
+        //     type: 'error',
+        //     title: '您的输入有误',
+        //     text: result.msg,
+        //     showCancelButton:false
+        //   })
+        // }
       }
     },
     computed:{

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import Global from '../../api/index.js'
   export default {
     data () {
       return {
@@ -55,7 +56,7 @@
             showCancelButton:false
           })
         }
-          const url = "http://192.168.1.57:8080//merchantMob/merchantUserMob/login"
+          const url = Global.host+"/merchantMob/merchantUserMob/login"
           var params = new URLSearchParams()
           params.append('fAccount',this.phone)
           params.append('fPassword',this.pwd)
@@ -98,16 +99,6 @@
       onCancel () {
         this.show = false
       },
-      // formatter (type, value) {
-      //   if (type === 'year') {
-      //     return `${value}年`
-      //   } else if (type === 'month') {
-      //     return `${value}月`
-      //   } else if (type === 'day') {
-      //     return `${value}日`
-      //   }
-      //   return value
-      // }
     },
     computed:{
       // rightPhone(){

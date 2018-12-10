@@ -14,6 +14,7 @@ import Message from '../pages/Message/Message.vue'
 import Community from '../pages/Community/Community.vue'
 import Setting from '../pages/Setting/Setting.vue'
 import AddShop from '../pages/AddShop/AddShop.vue'
+import ShopDetail from '../pages/ShopDetail/ShopDetail.vue'
 import AddMain from '../pages/AddMain/AddMain.vue'
 import CompileShop from '../pages/CompileShop/CompileShop.vue'
 import Customer from '../pages/Customer/Customer.vue'
@@ -22,6 +23,8 @@ import WaitPayment from '../pages/Order/WaitPayment/WaitPayment.vue'
 import AlreadyShipments from '../pages/Order/AlreadyShipments/AlreadyShipments.vue'
 import Refund from '../pages/Order/Refund/Refund.vue'
 import WaitShipments from '../pages/Order/WaitShipments/WaitShipments.vue'
+import OrderDetail from '../pages/Order/OrderDetail/OrderDetail.vue'
+import SearchOrder from '../pages/Order/SearchOrder/SearchOrder.vue'
 import Income from '../pages/Income/Income.vue'
 import AccountManagement from '../pages/Setting/AccountManagement/AccountManagement.vue'
 import Information from '../pages/Setting/AccountManagement/Information/Information.vue'
@@ -44,6 +47,10 @@ import AllEvaluate from '../pages/Evaluate/AllEvaluate/AllEvaluate.vue'
 import GoodReputation from '../pages/Evaluate/GoodReputation/GoodReputation.vue'
 import NegativeComment from '../pages/Evaluate/NegativeComment/NegativeComment.vue'
 import MediumReview from '../pages/Evaluate/MediumReview/MediumReview.vue'
+import TimeLimit from '../pages/AddShop/TimeLimit/TimeLimit.vue'
+import FullReduction from '../pages/AddShop/FullReduction/FullReduction.vue'
+import ActivityRegistration from '../pages/ActivityRegistration/ActivityRegistration.vue'
+import ChatRoom from '../pages/Message/Chat/ChatRoom/ChatRoom'
 
 //声明使用插件
 Vue.use(VueRouter)
@@ -92,6 +99,10 @@ export default new VueRouter({
           redirect:'/evaluate/AllEvaluate'
         },
       ]
+    },
+    {
+      path:'/SearchOrder',
+      component:SearchOrder,
     },
     {
       path:'/order',
@@ -149,6 +160,13 @@ export default new VueRouter({
           }
         },
         {
+          path:'/main/ChatRoom',
+          component:ChatRoom,
+          meta:{
+            showFooter:false
+          }
+        },
+        {
           path:'/main/community',
           component:Community,
           meta:{
@@ -156,8 +174,18 @@ export default new VueRouter({
           }
         },
         {
-          path:'/main/addmain',
+          path:'addmain',
           component:AddMain,
+          name:'addMain',
+          meta:{
+            keepAlive:true,
+            isBack: false, //用于判断上一个页面是哪个
+          }
+        },
+        {
+          path:'ShopDetail',
+          component:ShopDetail,
+          name:'ShopDetail'
         },
         {
           path:'/main/ShopDecoration',
@@ -168,8 +196,25 @@ export default new VueRouter({
           component:AddShop,
         },
         {
-          path:'/main/CompileShop',
+          path:'/main/timeLimit',
+          component:TimeLimit,
+        },
+        {
+          path:'/main/ActivityRegistration',
+          component:ActivityRegistration,
+        },
+        {
+          path:'/main/FullReduction',
+          component:FullReduction,
+        },
+        {
+          path:'CompileShop',
           component:CompileShop,
+          name:'compileShop',
+          meta:{
+            keepAlive: true,
+            issBack: false,//用于判断上一个页面是哪个
+          }
         },
         {
           path:'',
@@ -178,6 +223,10 @@ export default new VueRouter({
         {
           path:'/main/customer',
           component:Customer,
+        },
+        {
+          path:'/main/OrderDetail',
+          component:OrderDetail,
         },
         {
           path:'/main/income',
@@ -241,5 +290,10 @@ export default new VueRouter({
         },
       ]
     },
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {//解决拖动时多个页面互相影响的问题，当切换到新路由时，想要页面滚到顶部
+
+    return { x: 0, y: 0 }
+
+  }
 })

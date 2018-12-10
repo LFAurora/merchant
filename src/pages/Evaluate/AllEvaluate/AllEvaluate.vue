@@ -1,13 +1,13 @@
 <template>
   <section class="all_evaluate">
-    <div class="user_evaluate">
+    <div class="user_evaluate" v-for="(se,index) in shopEvaluate">
       <div class="user_photo">
-        <img src="../../../../static/images/git.jpg" alt="">
+        <img :src="se.userPhoto" alt="">
       </div>
       <div class="user_about">
-        <span class="user_name">你好啊</span>
+        <span class="user_name">{{se.userName}}</span>
         <van-rate
-          v-model="value"
+          v-model="se.value"
           :size="15"
           :count="5"
           color="#2ba"
@@ -17,13 +17,13 @@
         />
       </div>
       <div class="evaluate_msg">
-        <span>{{evaluate}}</span>
+        <span>{{se.evaluate}}</span>
       </div>
       <div class="evaluate_shop">
         <img src="../../../../static/images/git.jpg" alt="">
         <div class="evaluate_shop_msg">
-          <span>{{evaluateShopName}}</span>
-          <span>￥{{evaluateShopPrice}}</span>
+          <span>{{se.evaluateShopName}}</span>
+          <span>￥{{se.evaluateShopPrice}}</span>
         </div>
       </div>
       <div class="evaluate_btn">
@@ -38,10 +38,24 @@
   export default {
     data(){
       return{
-        value: 3,
-        evaluate:'好评',
-        evaluateShopName:'你好',
-        evaluateShopPrice:20
+        shopEvaluate:[
+          {
+            userName:'你好啊',
+            userPhoto:require('../../../../static/images/git.jpg'),
+            value: 3,
+            evaluate:'好评',
+            evaluateShopName:'你好',
+            evaluateShopPrice:20,
+          },
+          {
+            userName:'你好啊',
+            userPhoto:require('../../../../static/images/git.jpg'),
+            value: 3,
+            evaluate:'好评',
+            evaluateShopName:'你好',
+            evaluateShopPrice:20,
+          }
+        ]
       }
     }
   }

@@ -6,12 +6,12 @@
       right-text="完成"
       fixed
       left-arrow
-      @click-left="$router.back()"
+      @click-left="onClickLeft"
       @click-right="onClickRight"
     />
     <van-list>
       <form>
-        <uploader @getFiles='getImageList' @removeFiles='removeImage'></uploader>
+        <uploader @getFiles='getImageList' @removeFiles='removeImage' ref="upload"></uploader>
         <van-cell-group >
           <van-field
             label="标题"
@@ -19,6 +19,7 @@
             placeholder="请填写商品标题"
             rows="3"
             autosize
+            v-model="title"
           />
         </van-cell-group>
           <van-cell-group >
@@ -56,18 +57,19 @@
           <button @click.prevent="addModel" class="iconfont icon-jia1 add_model">添加商品型号</button>
         </div>
         <van-cell-group >
-          <van-field @click="IsShowFreight"
+          <van-field @click.prevent="IsShowFreight"
                      label="运费模板"
                      icon="arrow" readonly
                      v-model="template_of_freight"
           />
         </van-cell-group>
         <div>
-          <van-cell-group>
+          <van-cell-group >
             <van-field
               label="商品详情"
               icon="arrow"
-              disabled
+              readonly
+              @click.prevent="shopDetail"
             />
           </van-cell-group>
         </div>
@@ -84,7 +86,12 @@
 </template>
 
 <script>
+  import {Dialog} from 'vant'
+  import { Toast } from 'vant';
+  import Vue from 'vue'
+  Vue.use(Toast)
   import { ImagePreview } from 'vant';
+  import ShopDetail from '../ShopDetail/ShopDetail'
   import uploader from "./Upload";
   export default {
     data(){
@@ -96,21 +103,75 @@
           inventory: "",
           isImg: false
         }],
+        isFirstEnter:false,
         showModel:false,
-        imgList: [],
-        size: 0,
-        list_name:'',
-        template_of_freight:'',
+        imgList: [],//已上传的图片集合
+        size: 1,
+        title:'',
+        list_name:'',//商品类目
+        template_of_freight:'',//运费模板
         showPop: false,
         showFreight:false,
         columns: ['蔬菜', '水果', '调味品', '刀具'],
-        showFreightColumns:['默认运费模板','全国地区包邮','包邮(除偏远地区外)']
+        showFreightColumns:['默认运费模板','全国地区包邮','包邮(除偏远地区外)'],
+
       }
     },
     components: {
-      uploader
+      uploader,
+    },
+    beforeRouteEnter(to,from,next){
+      if(from.name == 'ShopDetail'){
+        to.meta.isBack = true
+      }
+      next()
+    },
+    created(){
+      this.isFirstEnter = true
+    },
+    activated(){
+      if (!this.$route.meta.isBack || this.isFirstEnter) {
+        this.initData() // 这里许要初始化dada()中的数据
+        // this.getDataFn() // 这里发起数据请求，（之前是放在created或者mounted中，现在只需要放在这里就好了，不需要再在created或者mounted中请求！！）
+      }
+      this.$route.meta.isBack = false //请求完后进行初始化
+      this.isFirstEnter = false;//请求完后进行初始化
     },
     methods: {
+      initData(){
+        this.title=''
+        this.test=[{
+          model: "",
+          price: "",
+          img: "",
+          inventory: "",
+          isImg: false
+        }]
+        this.isFirstEnter=false
+        this.showModel=false
+        this.imgList = []
+        this.size= 1
+        this.list_name=''
+        this.template_of_freight=''
+        this.showPop= false
+        this.showFreight=false
+        this.$refs.upload.files=[]
+        this.columns= ['蔬菜', '水果', '调味品', '刀具']
+        this.showFreightColumns=['默认运费模板','全国地区包邮','包邮(除偏远地区外)']
+      },
+      shopDetail(){
+        const imgArr = JSON.stringify(this.imgList);
+        // console.log(imgArr)
+        this.$router.push({
+          name:'ShopDetail',
+          path:'/main/ShopDetail',
+          params:{
+            arrImg:imgArr,
+            title:this.title
+          },
+        })
+        // console.log(this.$route)
+      },
       ImgPreview(e){
         var imgIndex = e.target.getAttribute("index")
         console.log(imgIndex)
@@ -147,8 +208,50 @@
         // this.$router.push(path)
       },
       onClickRight(){
-        // alert('完成')
-        console.log(this);
+        if(this.imgList.length===0){
+          Toast('请添加商品图片')
+          return
+        }else if(this.title===''){
+          Toast('请填写商品标题')
+        } else if(this.list_name===''){
+          alert('请选择商品类目')
+          return
+        }else if(this.test[0].price===''){
+          Toast('请填写商品价格')
+          return
+        }else if(this.test[0].inventory===''){
+          Toast('请填写商品库存')
+          return
+        }else if(this.template_of_freight===''){
+          Toast('请选择商品运费模板')
+          return
+        }
+        const url = '/api'+ "/merchantMob/merchantUserMob/login"
+        var params = new URLSearchParams()
+        params.append('fAccount',this.title)
+        params.append('fAccount',this.list_name)
+        params.append('fAccount',this.template_of_freight)
+        params.append('fAccount',this.test)
+        this.$axios({
+          url:url,
+          methods: 'POST',
+          data:params
+        }).then(res =>{
+          console.log(res)
+        }).catch(err =>{
+          console.log(err)
+        })
+      },
+      onClickLeft(){
+        Dialog.confirm({
+          // title: '标题',
+          message: '是否退出此次编辑？'
+        }).then(() => {
+          // on confirm
+          this.$router.back()
+        }).catch(() => {
+          // on cancel
+        });
       },
       addModel() {
         if(this.showModel==false){
@@ -271,7 +374,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .van-list{
     margin-top: 44px;
   }

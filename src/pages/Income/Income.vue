@@ -11,18 +11,18 @@
       <div class="income_main_show">
         <p class="use_balance">可用金额(元)</p>
         <div class="mon">
-          <span class="money">1000000</span>
+          <span class="money">{{avail}}</span>
           <span class="detial">明细 ></span>
         </div>
-        <button class="withdraw_deposit">提现</button>
+        <button class="withdraw_deposit" @click="incarnate">提现</button>
       </div>
     </div>
     <van-collapse v-model="activeNames">
       <van-collapse-item title="待结算(元)" name="1" value="0.00">
-        <van-cell-group>
+        <!--<van-cell-group>-->
           <van-cell title="交易中" value="0.00" label="进行中的订单金额"/>
           <van-cell title="结算中" value="0.00" label="已经完成的订单，次日可用" />
-        </van-cell-group>
+        <!--</van-cell-group>-->
       </van-collapse-item>
       <van-collapse-item title="已提现" name="2" value="0.00">
         网店吸粉获客、会员分层营销、一机多种收款，告别经营低效和客户流失
@@ -37,20 +37,53 @@
     <van-cell-group style="margin-top: 2vh">
       <van-cell title="收款码" is-link value="去申请" />
     </van-cell-group>
+    <van-dialog
+      v-model="showDialog"
+      show-cancel-button
+      :before-close="beforeClose"
+    >
+      <van-field
+        v-model="cashWithdrawalAmount"
+        label="提现金额"
+        placeholder="请输入您要提现的金额"
+      />
+    </van-dialog>
   </section>
 </template>
 
 <script>
+  import { Dialog } from 'vant';
+  import Vue from 'vue'
+  Vue.use(Dialog);
   export default {
     data() {
       return {
-        activeNames: ['0']
-      };
+        activeNames: ['0'],
+        show: false,
+        username: '',
+        password: '',
+        showDialog:false,
+        avail:10000,
+        cashWithdrawalAmount:'',//提现金额
+      }
+    },
+    methods:{
+      incarnate(){
+        this.showDialog=true
+      },
+      beforeClose(action, done) {
+        if (action === 'confirm') {
+          this.avail = this.avail - this.cashWithdrawalAmount
+          setTimeout(done, 100);
+        } else {
+          done();
+        }
+      }
     }
   };
 </script>
 
-<style>
+<style scoped>
   .van-nav-bar{
     background-color: rgb(231, 20, 26);
   }
@@ -113,11 +146,5 @@
   .detial{
     font-size: 12px;
     color: #E6AA68;
-  }
-  .van-cell{
-    line-height: 9vh;
-  }
-  .van-cell__right-icon{
-    line-height: 9vh;
   }
 </style>

@@ -13,14 +13,14 @@
           v-model="phone"
           label="手机号"
           placeholder="请输入绑定的手机号"
-          error-message="手机号格式错误"
+          :error-message="error_phone"
         />
         <van-field
           v-model="sms"
           center
           clearable
           label="短信验证码"
-          error-message="手机号格式错误"
+          :error-message="ss"
           placeholder="请输入短信验证码"
         >
           <van-button slot="button" size="small" type="primary">发送验证码</van-button>
@@ -29,22 +29,22 @@
           v-model="oldPwd"
           type="password"
           label="原密码"
-          error-message="手机号格式错误"
+          :error-message="error_pwd"
           placeholder="请输入您的原密码"
         />
         <van-field
           v-model="newPwd"
           type="password"
           label="新密码"
-          error-message="手机号格式错误"
+          :error-message="error_new_pwd"
           placeholder="请输入您的新密码"
         />
         <van-field
           v-model="reNewPwd"
           type="password"
           label="密码"
-          error-message="手机号格式错误"
-          placeholder="请确认您的新密码密码"
+          :error-message="error_sure_pwd"
+          placeholder="请确认您的新密码"
         />
       </van-cell-group>
     </div>
@@ -60,7 +60,13 @@
         sms:'',
         oldPwd:'',
         newPwd:'',
-        reNewPwd:''
+        reNewPwd:'',
+        ss:'',
+        error_phone:'',
+        error_pwd:'',
+        error_new_pwd:'',
+        error_sure_pwd:''
+
       }
     },
     methods:{

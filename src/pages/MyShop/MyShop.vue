@@ -3,9 +3,6 @@
     <div class="hide_header">
       <div class="hide">
         <span class="hide_name"><img src="../../../static/images/sp.png" alt=""></span>
-        <!--<div class="hide_search iconfont icon-icon-test">-->
-            <!--膳品推广-->
-        <!--</div>-->
         <span class="hide_set" @click="goTo('/main/setting')">
             <i class="iconfont icon-shezhi"></i>
         </span>
@@ -14,12 +11,6 @@
     <div class="header">
       <div class="headerTop">
         <span class="name"><img src="../../../static/images/sp.png" alt=""></span>
-        <!--<span>-->
-          <!--<a href="javascript:;" class="popularize_search">-->
-            <!--<i class="iconfont icon-icon-test search"></i>-->
-            <!--膳品推广-->
-          <!--</a>-->
-        <!--</span>-->
         <span class="set" @click="goTo('/main/setting')">
           <a>
             <i class="iconfont icon-shezhi"></i>
@@ -40,17 +31,17 @@
               <span>{{clientNum}}</span>
               <span>客户总数</span>
             </div>
-            <div>
+            <div @click.prevent="goTo('/main/addshop')">
               <span>{{commodityNum}}</span>
               <span>商品总数</span>
             </div>
-            <div>
+            <div @click.prevent="goTo('/order')">
               <span>{{indentNum}}</span>
               <span>待处理订单</span>
             </div>
-            <div>
+            <div @click.prevent="goTo('/main/income')">
               <span v-if="moneyNum<=10000">￥{{moneyNum}}</span>
-              <span v-else>￥{{moneyNum/10000}}w</span>
+              <span v-else>￥{{moneyNum/10000}}W</span>
               <span>交易金额</span>
             </div>
           </div>
@@ -103,7 +94,7 @@
           <h4 class="activity_time">活动时间：12月05日-12月06日</h4>
           <div class="residue_time">
             <span>报名剩余14天09小时23分</span>
-            <button>立即报名</button>
+            <button @click="goTo('/main/ActivityRegistration')">立即报名</button>
           </div>
         </div>
       </div>
@@ -174,8 +165,6 @@
     height: 7vw;
     border-radius: 3.5vw;
     vertical-align: middle;
-    /*background: rgba(255,255,255,0.7);*/
-    /*background: linear-gradient(to bottom right, #fffcf2 , #FFFFFF);*/
     font-size: 16px;
   }
   .hide{
@@ -423,7 +412,7 @@
     height: 24vh;
     position: absolute;
     /*top: vh;*/
-    top: 11vh;
+    top: 11.5vh;
   }
   .mask_title{
     margin-top: 8vw;

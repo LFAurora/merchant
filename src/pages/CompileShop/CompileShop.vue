@@ -1,12 +1,12 @@
 <template>
   <section class="add_main">
     <van-nav-bar
-      title="添加商品"
+      title="编辑商品"
       left-text="返回"
       right-text="完成"
       fixed
       left-arrow
-      @click-left="$router.back()"
+      @click-left="onClickLeft"
       @click-right="onClickRight"
     />
     <van-list>
@@ -19,13 +19,14 @@
             placeholder="请填写商品标题"
             rows="3"
             autosize
+            v-model="title"
           />
         </van-cell-group>
         <van-cell-group >
           <van-field @click="IsshowPop"
-                     label="类目"
-                     icon="arrow" readonly
-                     v-model="list_name"
+           label="类目"
+           icon="arrow" readonly
+           v-model="list_name"
           />
         </van-cell-group>
         <div>
@@ -67,7 +68,8 @@
             <van-field
               label="商品详情"
               icon="arrow"
-              disabled
+              readonly
+              @click.prevent="shopDetail"
             />
           </van-cell-group>
         </div>
@@ -79,27 +81,32 @@
          <van-picker show-toolbar title="请选择商品的分类" :columns="showFreightColumns" @cancel="onCancelFreight" @confirm="onConfirmFreight" />
       </van-popup>
     </van-list>
-
+    <div class="compile_shop_btn">
+      <button>下架</button>
+      <button>删除</button>
+    </div>
   </section>
 </template>
 
 <script>
   import { ImagePreview } from 'vant';
+  import {Dialog} from 'vant'
   import uploader from "./Upload";
   export default {
     data(){
       return{
         test:[{
-          model: "",
-          price: "",
-          img: "",
-          inventory: "",
-          isImg: false
+          model: "大号",
+          price: "50",
+          img: require('./upload.png'),
+          inventory: "80",//库存
+          isImg: true
         }],
+        title:'商品编辑',
         showModel:false,
         size: 0,
-        list_name:'',
-        template_of_freight:'',
+        list_name:'蔬菜',
+        template_of_freight:'默认运费模板',//运费模板
         showPop: false,
         showFreight:false,
         columns: ['蔬菜', '水果', '调味品', '刀具'],
@@ -114,6 +121,18 @@
       uploader
     },
     methods: {
+      //携带数据跳转到商品详情页面
+      shopDetail(){
+        const imgArrs = JSON.stringify(this.imgList);
+        this.$router.push({
+          name:'ShopDetail',
+          path:'/main/ShopDetail',
+          params:{
+            arrImg:imgArrs,
+            title:this.title
+          },
+        })
+      },
       ImgPreview(e){
         var imgIndex = e.target.getAttribute("index")
         console.log(imgIndex)
@@ -146,6 +165,17 @@
 
       goTo(path){
         console.log(123)
+      },
+      onClickLeft(){
+        Dialog.confirm({
+          // title: '标题',
+          message: '是否退出此次编辑？'
+        }).then(() => {
+          // on confirm
+          this.$router.back()
+        }).catch(() => {
+          // on cancel
+        });
       },
       onClickRight(){
         // alert('完成')
@@ -293,7 +323,7 @@
     height: 240px;
   }
   .add_main{
-    background: #efefef;
+    background: #eeeeee;
   }
   .add_shop_model{
     margin-top: 20px;
@@ -490,5 +520,24 @@
     height: 15vw;
     margin-bottom: 10px;
     margin-left: 15vw;
+  }
+  .compile_shop_btn{
+    width: 100vw;
+    height: 80px;
+    margin-top: 20px;
+  }
+  .compile_shop_btn>button{
+    width: 45vw;
+    height: 50px;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+  }
+  .compile_shop_btn>button:nth-child(1){
+    background-color: #333333;
+    margin-left: 5vw;
+  }
+  .compile_shop_btn>button:nth-child(2){
+    background-color: #E7141A;
   }
 </style>

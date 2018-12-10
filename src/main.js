@@ -7,6 +7,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+Vue.use(Vuex)
 // import store from './store'
 import { Tab, Tabs,List,Tabbar, TabbarItem,NoticeBar,SwipeCell,
   NavBar,PullRefresh,Cell, CellGroup,Uploader} from 'vant';
@@ -23,7 +24,6 @@ import { Dialog } from 'vant';
 Vue.use(Dialog)
 import { Field } from 'vant';
 Vue.use(Field);
-Vue.use(Vuex)
 import { Popup } from 'vant';
 Vue.use(Popup);
 import { Picker } from 'vant';
@@ -49,16 +49,24 @@ Vue.use(Rate);
 import { Area } from 'vant';
 Vue.use(Area);
 import { Swipe, SwipeItem } from 'vant';
-
 Vue.use(Swipe).use(SwipeItem);
+import { Step, Steps } from 'vant';
+Vue.use(Step).use(Steps);
+import { Icon } from 'vant';
+Vue.use(Icon);
 import axios from 'axios'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 Vue.prototype.$axios = axios;
+
+
 new Vue({
   el: '#app',
   // store,
   components: { App },
   template: '<App/>',
-  router
+  router,
+  data:{
+    eventHub: new Vue()
+  }
 })

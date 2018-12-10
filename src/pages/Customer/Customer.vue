@@ -7,16 +7,26 @@
       fixed
       @click-left="$router.back()"
     />
+    <transition name="slide-fade">
+    <div class="fans_all" v-if="show">
+      <div class="fan_all_show">
+        <div class="fanll" v-for="(fan,index) in fans">
+          <img :src="fan.img" alt="">
+          <div class="fan_name">{{fan.fansName}}</div>
+        </div>
+      </div>
+    </div>
+    </transition>
     <div class="customer_main">
       <div class="customer_details">
         <div class="detail">
           <div>
             <div class="iconfont icon-kehu">客户总数</div>
-            <div class="customer_all">{{customerAll}}</div>
+            <div class="customer_all">{{customer.length}}</div>
           </div>
-          <div>
+          <div @click="showFans">
             <div><i class="iconfont icon-wode"></i>店铺粉丝</div>
-            <div class="customer_all">{{customerFans}}</div>
+            <div class="customer_all">{{fans.length}}</div>
           </div>
         </div>
       </div>
@@ -40,6 +50,7 @@
   export default {
     data () {
       return {
+        show:false,
         customer:[{
           img:require('../../../static/images/git.jpg'),
           customerName:'大家好',
@@ -50,18 +61,52 @@
           customerName:'大家好',
           customerSum:'200'
         }],
-        customerAll:20,
-        customerFans:500
+        fans:[
+          {
+            img:require('../../../static/images/git.jpg'),
+            fansName:'我是粉丝asdfasdfasd'
+          },
+          {
+            img:require('../../../static/images/git.jpg'),
+            fansName:'我是粉丝asdfasdfasd'
+          },
+          {
+            img:require('../../../static/images/git.jpg'),
+            fansName:'我是粉丝asdfasdfasd'
+          },
+          {
+            img:require('../../../static/images/git.jpg'),
+            fansName:'我是粉丝asdfasdfasd'
+          },
+          {
+            img:require('../../../static/images/git.jpg'),
+            fansName:'我是粉丝asdfasdfasd'
+          },
+          {
+            img:require('../../../static/images/git.jpg'),
+            fansName:'我是粉丝asdfasdfasd'
+          }
+        ]
       }
     },
     mounted () {
     },
     methods:{
+      showFans(){
+        if(this.show===true){
+          this.show=false
+        } else{
+          this.show=true
+        }
+      }
     }
   }
 </script>
 
-<style >
+<style scoped>
+  .slide-fade-enter-active {
+    transition: all .3s ease-in;
+  }
   .van-nav-bar{
     background: linear-gradient(to right, #c90000, #ff2b20);
   }
@@ -135,5 +180,49 @@
   }
   .money{
     margin-top: 3vw;
+  }
+  .fans_all{
+    width: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /*display: none;*/
+    height: 20vh;
+    box-sizing: border-box;
+    background-color: black;
+    padding: 6vw 0;
+    position: relative;
+    top: 46px;
+    white-space: nowrap;
+  }
+  .fans_all::-webkit-scrollbar{
+    display: none;
+  }
+  .fans_all img{
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .fan_name{
+    margin-top: 15px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    width: 15vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+  }
+  .fanll{
+    display: inline-block;
+    margin-left: 5vw;
+  }
+  .fan_all_show{
+    overflow-x: scroll;
+    box-sizing: border-box;
+    padding-right: 5vw;
+  }
+  .fan_all_show::-webkit-scrollbar{
+    display: none;
   }
 </style>

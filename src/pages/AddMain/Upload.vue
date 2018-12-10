@@ -89,7 +89,7 @@ Description 图片上传及预览组件
       //选择图片
       selectImgs() {
         let fileList = this.$refs.file.files;
-        if (fileList.length > 9) {
+        if (fileList.length > 5) {
           alert(this.lang.dynamic_upload_tips);
         }
         let tempList = []; //每次点击+号后选择的图片信息
@@ -358,7 +358,7 @@ Description 图片上传及预览组件
         cursor: pointer;
         line-height: 12px;
         background: rgba(0, 0, 0, 0.25);
-        z-index: 1000;
+        /*z-index: 1000;*/
       }
       &:hover .file-remove {
         display: inline;

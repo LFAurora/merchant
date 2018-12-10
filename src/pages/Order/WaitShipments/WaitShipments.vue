@@ -1,6 +1,6 @@
 <template>
   <section class="wait_shipments">
-    <div class="order_user">
+    <div class="order_user" @click="showOrder">
       <img src="../../../../static/images/git.jpg" alt="">
       <div class="order_user_msg">
         <span>收货人:{{consigneeName}}</span>
@@ -18,6 +18,11 @@
         consigneeName:'xxx',
         orderTime:'2018-11-16 21:57:39',
         orderAmount:'50'
+      }
+    },
+    methods:{
+      showOrder(){
+        this.$router.push('/main/OrderDetail')
       }
     }
   }

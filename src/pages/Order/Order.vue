@@ -6,7 +6,7 @@
       left-arrow
       @click-left="$router.back()"
     />
-    <van-search placeholder="商品订单号|手机号码|姓名" readonly />
+    <van-search placeholder="商品订单号|手机号码|姓名" readonly @click.prevent="pTo('/SearchOrder')" />
     <van-tabs>
       <van-tab title="进行中" >
         <div class="running">
@@ -54,12 +54,15 @@
     methods:{
       goTo(path){
         this.$router.replace(path)
+      },
+      pTo(path){
+        this.$router.push(path)
       }
     }
   }
 </script>
 
-<style>
+<style scoped>
   .van-nav-bar{
     background-color: rgb(231, 20, 26);
   }
@@ -95,5 +98,6 @@
   }
   .active{
     background-color: white;
+    color: #ff2b20;
   }
 </style>

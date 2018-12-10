@@ -7,8 +7,7 @@
       fixed
       @click-left="$router.back()"
     />
-
-    <div style="height: 100vh;overflow: hidden" v-if="!show">
+    <div style="height: 100vh;overflow: hidden" v-if="shopMsg.length==0 && removeShop.length===0">
       <div class="add_before" >
         <h1 class="add_title">添加高品质好货</h1>
         <h6 class="add_direction">添加商品就是如此快捷简单</h6>
@@ -16,37 +15,34 @@
       </div>
     </div>
     <div class="add_after" v-else>
-      <!--<van-notice-bar mode="closeable">-->
-        <!--足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。-->
-      <!--</van-notice-bar>-->
       <van-tabs  sticky>
-        <van-tab  :title="'出售中（5）'">
+        <van-tab  :title="'出售中（'+shopMsg.length+'）'">
           <div class="sort">
-            <span class="add_time">添加时间</span>
+            <span class="add_time" @click="addTime">添加时间</span>
             <span>销量</span>
             <span>成交额</span>
             <span>库存</span>
           </div>
-          <div class="aa" @click="goTo('/main/CompileShop')" v-for="(shop,index) in shopMsg" @touchstart="touchin()" @touchend="cleartime()">
-            <div class="shopaa"  >
+          <div class="aa"  v-for="(shop,index) in shopMsg" @touchstart="touchin()" @touchend="cleartime()">
+            <div class="shopaa"  @click="goTo('/main/CompileShop')">
               <img :src="shop.img" alt="">
               <div class="detial">
-                <span>{{shop.shopName}}</span>
+                <span class="set_shop_name"><span :class="{redColor:shop.name1==='#店长推荐#'}">{{shop.name1}}</span>{{shop.name2}}</span>
                 <span>￥ {{shop.price}}</span>
                 <div class="shop_msg">
                   <div class="mm">
-                    <span>总销量 {{shop.grossSales}}</span>
-                    <span>成交额 {{shop.volumeOfBusiness}}</span>
+                    <span>总销量 {{shop.fsales}}</span>
+                    <span>成交额 {{shop.fgrosssales}}</span>
                   </div>
                   <div class="ss">
                     <span>库存 {{shop.inventory}}</span>
-                    <span>添加 {{shop.addTime}}</span>
+                    <span>添加 {{shop.faddtime}}</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="show_menu">
-              <div class="generalize">
+              <div class="generalize" @click="Generalize">
                 <span class="iconfont icon-yinlianglabashengyin-xianxing"></span>
                 <span>推广</span>
               </div>
@@ -55,13 +51,32 @@
                 <span>分享</span>
               </div>
             </div>
+            <van-popup v-model="showGeneralize" position="bottom">
+              <div class="generalizela">
+                <h4>推广</h4>
+                <div class="generalize_btn">
+                  <div @click="goTo('/main/timeLimit')">
+                    <div class="discount_in_limited_time iconfont icon-icon2fuzhi">
+                    </div>
+                    <div class="btn_font">限时折扣</div>
+                  </div>
+                  <div @click="goTo('/main/FullReduction')">
+                    <div class="full_reduction iconfont icon-manjianyouhui">
+                    </div>
+                    <div class="btn_font">满减</div>
+                  </div>
+                </div>
+              </div>
+              <button class="cancel" @click="cancel">取消</button>
+            </van-popup>
           </div>
           <van-tabbar v-model="active">
             <van-tabbar-item to="/main/addmain" class="sa iconfont icon-jia1">添加商品</van-tabbar-item>
             <van-tabbar-item to="/main/batch" class="sa iconfont icon-ziyuan">批量管理</van-tabbar-item>
           </van-tabbar>
+
         </van-tab>
-        <van-tab :title="'已下架（1） '">
+        <van-tab :title="'已下架（'+removeShop.length+'）'">
           <div class="sort">
             <span class="add_time">添加时间</span>
             <span>销量</span>
@@ -70,18 +85,18 @@
           </div>
           <div class="aa" v-for="(rm,index) in removeShop">
             <div class="shopaa">
-              <img :src="rm.rImg" alt="">
+              <img :src="rm.img" alt="">
               <div class="detial">
-                <span>{{rm.rShopName}}</span>
-                <span>￥ {{rm.rPrice}}</span>
+                <span class="set_shop_name">{{rm.fname}}</span>
+                <span>￥ {{rm.price}}</span>
                 <div class="shop_msg">
                   <div class="mm">
-                    <span>总销量{{rm.rGrossSales}}</span>
-                    <span>成交额 {{rm.rVolumeOfBusiness}}</span>
+                    <span>总销量{{rm.fsales}}</span>
+                    <span>成交额 {{rm.fgrosssales}}</span>
                   </div>
                   <div class="ss">
-                    <span>库存 {{rm.rInventory}}</span>
-                    <span>添加 {{rm.removeTime }}</span>
+                    <span>库存 {{rm.inventory}}</span>
+                    <span>添加 {{rm.faddtime }}</span>
                   </div>
                 </div>
               </div>
@@ -108,65 +123,70 @@
 </template>
 
 <script>
+  import Global from '../../api/index'
   import { Dialog } from 'vant';
   import Vue from 'vue'
   Vue.use(Dialog)
   export default {
     data(){
       return{
-        shopMsg:[{
-          img:require('../../../static/images/git.jpg'),
-          shopName:'你好',
-          price:500.00,
-          grossSales:10,//总销量
-          volumeOfBusiness:50000,
-          inventory:50,
-          addTime:'2018-06-15'
-        },
-        {
-          img:require('../../../static/images/git.jpg'),
-          shopName:'你好',
-          price:500.00,
-          grossSales:10,
-          volumeOfBusiness:50000,
-          inventory:50,
-          addTime:'2018-09-15'
-        },
-          {
-            img:require('../../../static/images/git.jpg'),
-            shopName:'你好',
-            price:500.00,
-            grossSales:10,
-            volumeOfBusiness:50000,
-            inventory:50,
-            addTime:'2018-09-15'
-          },
-          {
-            img:require('../../../static/images/git.jpg'),
-            shopName:'你好',
-            price:500.00,
-            grossSales:10,
-            volumeOfBusiness:50000,
-            inventory:50,
-            addTime:'2018-09-15'
-          }],
-        removeShop:[{
-          rImg:require('../../../static/images/git.jpg'),
-          rShopName:'已下架',
-          rPrice:300,
-          rGrossSales:15,
-          rVolumeOfBusiness:3000,//商品成交额
-          rInventory:60,//库存
-          removeTime:'2018-09-15'//下架时间
-        }],
+        shopMsg:[
+
+        ],
+        removeShop:[],
         show:true,
         active: 0,
         showaa:false,
+        showGeneralize:false,
       }
     },
+    mounted(){
+      this.getData()
+    },
     methods: {
+      getData(){
+        const url = Global.host+"/merchantMob/merchantProductMob/getAllProduct"
+        this.$axios({
+          method:'GET',
+          url:url,
+        }).then( (res)=>{
+          if(res.data.code === 200){
+            res.data.data.item.forEach(item => {
+              item.price = item.merchantProductMarques[0].fprice;
+              item.inventory = item.merchantProductMarques[0].frepository;
+              item.img = Global.imgHost+item.fcover
+              item.state = item.fstate
+              item.name1 = item.fname.substring(0,6)
+              item.name2 = item.fname.substring(6,item.fname.length)
+            });
+            for (let i in res.data.data.item) {
+              if(res.data.data.item[i].fstate==='上架'){
+                this.shopMsg.push(res.data.data.item[i])
+              }else{
+                this.removeShop.push(res.data.data.item[i])
+              }
+            }
+            // this.shopMsg = res.data.data.item
+          }else if(res.data.code === 408){
+
+          }
+        }).catch( (err) =>{
+          console.log(err)
+        })
+      },
       goTo(path){
         this.$router.push(path)
+      },
+      addTime(){
+        const shopArr = this.shopMsg
+        function compare(property){
+          return function (a,b) {
+            var value1 = a[property]
+            var Value2 = b[property]
+            return value1 - Value2
+          }
+        }
+        shopArr.sort(compare('price'))
       },
       touchin() {
         clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
@@ -193,12 +213,25 @@
              })
            }
         })
+      },
+      Generalize(){
+        // if(this.generalize===false){
+          this.showGeneralize=true
+        // }
+      },
+      cancel(){
+        this.showGeneralize=false
       }
     }
   }
 </script>
 
 <style scoped>
+  .set_shop_name{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+  }
   .van-n.av-bar__text{
     color: #fff;
   }
@@ -251,6 +284,8 @@
   .add_after {
     position: absolute;
     top: 44px;
+    margin-bottom: 65px;
+    background-color: #eeeeee;
   }
 
   .shopaa{
@@ -305,8 +340,8 @@
   }
   .sort{
     width: 100vw;
-    height: 5vh;
-    line-height: 5vh;
+    height: 6vh;
+    line-height: 6vh;
     background-color: white;
     /*text-align: center;*/
   }
@@ -317,7 +352,9 @@
   }
   .show_menu{
     width: 100vw;
-    height: 8vh;
+    box-sizing: border-box;
+    padding-top: 2vw;
+    height: 10vh;
     background-color: white;
   }
   .show_menu>div{
@@ -354,5 +391,58 @@
     background-color: white;
     border-top: 1px solid lightgrey;
   }
-
+  .generalizela{
+    height: 23vh;
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 5vw;
+  }
+  .generalizela>h4{
+    text-align: center;
+    font-size: 12px;
+    color: #999999;
+  }
+  .discount_in_limited_time{
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+    border: 1px solid #999999;
+    margin-top: 4vh;
+    text-align: center;
+    line-height: 15vw;
+    font-size: 10vw;
+  }
+  .generalize_btn{
+    width: 90vw;
+    display: flex;
+    justify-content: space-around;
+  }
+  .full_reduction{
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+    border: 1px solid #999999;
+    margin-top: 4vh;
+    text-align: center;
+    line-height: 15vw;
+    font-size: 10vw;
+  }
+  .cancel{
+    width: 100vw;
+    height: 8vh;
+    border-top: 1px solid #eeeeee;
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
+    background-color: #eeeeee;
+  }
+  .btn_font{
+    text-align: center;
+    margin-top: 2vw;
+    font-size: 12px;
+    color: #999999;
+  }
+  .redColor{
+    color: #f80000;
+  }
 </style>
